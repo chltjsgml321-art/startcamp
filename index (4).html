@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALEX "POATAN" PEREIRA - Official Site</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+KR:wght@300;400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        jungleDark: '#070f0b', 
+                        jungleDeep: '#0d1f15', 
+                        chamaRed: '#e53e3e',   
+                        stoneGray: '#2d3748',  
+                        goldAccent: '#ecc94b'  
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                        impact: ['Oswald', 'sans-serif'],
+                        epic: ['Cinzel', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #070f0b; }
+        ::-webkit-scrollbar-thumb { background: #1c3d2a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #e53e3e; }
+        
+        .grunge-bg {
+            background-image: radial-gradient(circle at 50% 50%, rgba(13, 31, 21, 0.3) 0%, rgba(7, 15, 11, 1) 90%);
+        }
+
+        .octagon-grid {
+            background-color: #070f0b;
+            background-image: 
+                linear-gradient(30deg, #0d1f15 12%, transparent 12.5%, transparent 87%, #0d1f15 87.5%, #0d1f15),
+                linear-gradient(150deg, #0d1f15 12%, transparent 12.5%, transparent 87%, #0d1f15 87.5%, #0d1f15);
+            background-size: 30px 50px;
+            opacity: 0.1;
+        }
+
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+            color: transparent;
+        }
+        
+        @keyframes pulse-fast {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.03); opacity: 1; }
+        }
+        .pulse-chama { animation: pulse-fast 1.5s infinite; }
+
+        /* 💥 물리 스크린 셰이크(흔들림) 물리엔진 CSS 키프레임 */
+        @keyframes raw-shake {
+            0% { transform: translate(0px, 0px) rotate(0deg); }
+            10% { transform: translate(-4px, -6px) rotate(-1.5deg); }
+            20% { transform: translate(-8px, 0px) rotate(1.5deg); }
+            30% { transform: translate(0px, 6px) rotate(0deg); }
+            40% { transform: translate(4px, -3px) rotate(1.5deg); }
+            50% { transform: translate(-2px, 6px) rotate(-1.5deg); }
+            60% { transform: translate(-8px, 3px) rotate(0deg); }
+            70% { transform: translate(6px, 3px) rotate(-1.5deg); }
+            80% { transform: translate(-2px, -3px) rotate(1.5deg); }
+            90% { transform: translate(6px, 6px) rotate(0deg); }
+            100% { transform: translate(0px, 0px) rotate(0deg); }
+        }
+        .physical-shake {
+            animation: raw-shake 0.25s cubic-bezier(.36,.07,.19,.97) both;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-100 font-sans selection:bg-chamaRed selection:text-white overflow-x-hidden transition-transform duration-75">
+
+    <!-- 🖥️/📱 모바일 시뮬레이터 탑 컨트롤 바 -->
+    <div id="simulator-control-bar" class="sticky top-0 left-0 w-full bg-neutral-900 border-b border-neutral-800 text-white px-4 py-3 flex flex-wrap justify-between items-center z-[100] gap-2">
+        <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-chamaRed animate-pulse"></span>
+            <span class="font-impact text-sm uppercase tracking-widest text-gray-300">PREVIEW CONSOLE / 시뮬레이터</span>
+        </div>
+        <div class="flex items-center gap-1.5 bg-neutral-950 p-1 rounded-lg border border-neutral-800 text-xs font-bold">
+            <button onclick="switchViewMode('desktop')" id="btn-view-desktop" class="px-4 py-1.5 rounded-md bg-chamaRed text-white transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-desktop"></i> 데스크톱 (PC)
+            </button>
+            <button onclick="switchViewMode('mobile')" id="btn-view-mobile" class="px-4 py-1.5 rounded-md text-gray-400 hover:text-white transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-mobile-button"></i> 모바일 (375x812)
+            </button>
+        </div>
+    </div>
+
+    <!-- 뷰포트 시뮬레이션용 바깥 컨테이너 -->
+    <div id="viewport-wrapper" class="w-full min-h-screen bg-neutral-950 flex justify-center items-start pt-6 pb-12 transition-all duration-500">
+        
+        <!-- 실감나는 스마트폰 기기 셸 프레임 (모바일 토글 시 활성화) -->
+        <div id="device-shell" class="w-full transition-all duration-500 ease-in-out relative flex flex-col">
+            
+            <!-- 스마트폰 하드웨어 가상 요소 (카메라 노치, 상단바) -->
+            <div id="device-hardware-top" class="hidden absolute top-0 left-1/2 -translate-x-1/2 w-40 h-6 bg-stone-900 rounded-b-2xl z-[80] flex items-center justify-center">
+                <div class="w-12 h-1 bg-stone-800 rounded-full mb-1"></div>
+                <div class="w-2.5 h-2.5 bg-stone-950 rounded-full ml-3 mb-1 border border-stone-800"></div>
+            </div>
+
+            <!-- 스마트폰 하단 홈바 지시선 (모바일 전용) -->
+            <div id="device-hardware-bottom" class="hidden absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-gray-600 rounded-full z-[80] pointer-events-none"></div>
+
+            <!-- 실제 웹사이트 메인 본체 컨테이너 -->
+            <div id="app-container" class="w-full h-full relative bg-jungleDark overflow-x-hidden">
+
+                <!-- 💥 배경 파티클 및 스파크 캔버스 -->
+                <canvas id="particle-canvas" class="dynamic-fixed fixed inset-0 z-10 pointer-events-none opacity-80"></canvas>
+
+                <!-- 최상단 스크롤 진행률 표시바 -->
+                <div class="dynamic-fixed fixed top-0 left-0 w-full h-[4px] bg-jungleDark/30 z-[60] pointer-events-none">
+                    <div id="scroll-progress" class="h-full bg-chamaRed w-0 shadow-[0_0_10px_#e53e3e,0_0_5px_#e53e3e] transition-all duration-75 ease-out"></div>
+                </div>
+
+                <!-- 우측 상단 고정 스마트 원형 스크롤 게이지 위젯 -->
+                <div id="scroll-widget" class="dynamic-fixed fixed top-20 right-4 z-50 bg-jungleDark/90 border border-jungleDeep/80 backdrop-blur-md p-2.5 flex flex-col items-center justify-center shadow-2xl select-none transition-transform duration-300 hover:scale-105">
+                    <div class="relative w-12 h-12">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                            <path class="text-jungleDeep" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path id="scroll-circle" class="text-chamaRed transition-all duration-75 ease-out shadow-lg" stroke-dasharray="0, 100" stroke-width="3.5" stroke-linecap="square" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div id="scroll-percent" class="absolute inset-0 flex items-center justify-center font-impact text-[11px] text-white tracking-tighter">0%</div>
+                    </div>
+                    <span class="text-[8px] text-gray-500 font-bold uppercase mt-1 tracking-widest">PATAXÓ</span>
+                </div>
+
+                <!-- 글로벌 네비게이션 바 -->
+                <header id="main-header" class="dynamic-fixed fixed top-0 left-0 w-full z-50 bg-jungleDark/95 backdrop-blur-md border-b border-jungleDeep/50 transition-all duration-300">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center mt-[4px]">
+                        <!-- 로고 -->
+                        <a href="#" class="flex items-center gap-2 sm:gap-3 z-50">
+                            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-chamaRed fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-2h2v2zm0-4.5h-2V7h2v5z"/>
+                            </svg>
+                            <span class="font-impact text-xl sm:text-2xl tracking-wider text-white">ALEX <span class="text-chamaRed">"POATAN"</span></span>
+                        </a>
+                        
+                        <!-- 메뉴 (데스크탑 전용) -->
+                        <nav class="hidden md:flex gap-6 lg:flex-row lg:gap-8 font-impact text-base lg:text-lg tracking-widest text-gray-400">
+                            <a href="#hero" class="hover:text-chamaRed transition-colors">THE FIGHTER</a>
+                            <a href="#stats" class="hover:text-chamaRed transition-colors">ANALYSIS</a>
+                            <a href="#origin" class="hover:text-chamaRed transition-colors">ORIGIN</a>
+                            <a href="#media" class="hover:text-chamaRed transition-colors">CHAMA MEME</a>
+                            <a href="#shop" class="hover:text-chamaRed transition-colors">OFFICIAL SHOP</a>
+                            <a href="#quiz-section" class="hover:text-chamaRed transition-colors">CHAMA QUIZ</a>
+                            <a href="#comments" class="hover:text-chamaRed transition-colors">FAN ZONE</a>
+                        </nav>
+
+                        <div class="flex items-center gap-2 sm:gap-4 z-50">
+                            <button onclick="triggerChamaEvent(event)" class="bg-chamaRed text-white font-impact tracking-widest text-xs sm:text-sm px-4 sm:px-6 py-2 border border-transparent hover:bg-transparent hover:border-chamaRed hover:text-chamaRed transition-all duration-300 pulse-chama">
+                                CHAMA! 🔥
+                            </button>
+                            <button id="menu-toggle" onclick="toggleMobileMenu()" class="block md:hidden text-white p-2 focus:outline-none" aria-label="메뉴 열기">
+                                <i id="menu-icon" class="fa-solid fa-bars text-xl transition-transform duration-300"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 모바일 전용 드롭다운 드로어 메뉴 -->
+                    <div id="mobile-menu" class="absolute inset-x-0 top-[56px] sm:top-[69px] bg-jungleDark/98 backdrop-blur-lg w-full h-screen z-40 hidden opacity-0 transition-all duration-300 border-t border-t-jungleDeep/40">
+                        <nav class="flex flex-col items-center justify-start pt-12 gap-8 font-impact text-xl tracking-widest text-gray-300 px-6">
+                            <a href="#hero" onclick="toggleMobileMenu()" class="hover:text-chamaRed w-full text-center py-2 border-b border-jungleDeep/30">THE FIGHTER</a>
+                            <a href="#stats" onclick="toggleMobileMenu()" class="hover:text-chamaRed w-full text-center py-2 border-b border-jungleDeep/30">ANALYSIS</a>
+                            <a href="#origin" onclick="toggleMobileMenu()" class="hover:text-chamaRed w-full text-center py-2 border-b border-jungleDeep/30">ORIGIN</a>
+                            <a href="#media" onclick="toggleMobileMenu()" class="hover:text-chamaRed w-full text-center py-2 border-b border-jungleDeep/30">CHAMA MEME</a>
+                            <a href="#shop" onclick="toggleMobileMenu()" class="hover:text-chamaRed w-full text-center py-2 border-b border-jungleDeep/30">OFFICIAL SHOP</a>
+                            <a href="#quiz-section" onclick="toggleMobileMenu()" class="hover:text-chamaRed w-full text-center py-2 border-b border-jungleDeep/30">CHAMA QUIZ</a>
+                            <a href="#comments" onclick="toggleMobileMenu()" class="hover:text-chamaRed w-full text-center py-2 border-b border-jungleDeep/30">FAN ZONE</a>
+                        </nav>
+                    </div>
+                </header>
+
+                <div class="fixed inset-0 octagon-grid pointer-events-none z-0"></div>
+
+                <!-- 1단계: 히어로 오프닝 섹션 -->
+                <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 sm:pt-20 overflow-hidden grunge-bg z-20">
+                    <div class="absolute inset-0 bg-gradient-to-t from-jungleDark via-transparent to-transparent z-10"></div>
+                    
+                    <div class="absolute right-0 bottom-0 w-full lg:w-1/2 h-[50vh] sm:h-[70vh] lg:h-[80vh] opacity-20 sm:opacity-40 lg:opacity-60 flex items-end justify-center pointer-events-none select-none z-0">
+                        <svg class="w-full h-full max-h-[600px] text-jungleDeep" viewBox="0 0 500 500" fill="currentColor">
+                            <path d="M150,500 L200,300 L250,250 L230,180 L250,120 L240,70 L260,50 L290,70 L280,120 L300,180 L280,250 L330,300 L380,500 Z" />
+                            <path d="M230,180 L180,160 L120,190 L90,250" stroke="currentColor" stroke-width="8" fill="none" />
+                            <path d="M300,180 L350,190 L410,230 L450,300" stroke="currentColor" stroke-width="8" fill="none" />
+                            <circle cx="270" cy="85" r="5" fill="#e53e3e" />
+                        </svg>
+                    </div>
+
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full relative z-20 grid lg:grid-cols-2 items-center gap-10 lg:gap-12 py-8 sm:py-12">
+                        <div>
+                            <div class="flex items-center gap-3 text-chamaRed mb-3 sm:mb-4">
+                                <span class="h-[2px] w-8 sm:w-12 bg-chamaRed"></span>
+                                <span class="font-impact uppercase tracking-widest text-xs sm:text-sm">PATAXÓ WARRIOR</span>
+                            </div>
+                            
+                            <h1 class="font-epic text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight lg:leading-none text-white mb-4 sm:mb-6">
+                                ALEX <br class="hidden sm:block">
+                                <span class="text-transparent text-stroke sm:block">PEREIRA</span>
+                            </h1>
+
+                            <div class="min-h-[4.5rem] sm:min-h-[5rem] mb-6 sm:mb-8 flex items-center">
+                                <p id="catchphrase" class="font-sans text-sm sm:text-xl md:text-2xl text-gray-300 font-light border-l-4 border-chamaRed pl-3 sm:pl-4 italic transition-all duration-500 break-words">
+                                    "불합리한 왼손, 옥타곤을 지배하다."
+                                </p>
+                            </div>
+
+                            <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-8 sm:mb-10">
+                                <span class="bg-jungleDeep border border-emerald-900/40 text-emerald-400 font-impact text-[10px] sm:text-xs uppercase tracking-wider px-2 sm:px-3 py-1">#불합리한_왼손</span>
+                                <span class="bg-jungleDeep border border-emerald-900/40 text-emerald-400 font-impact text-[10px] sm:text-xs uppercase tracking-wider px-2 sm:px-3 py-1">#포커페이스_머신</span>
+                                <span class="bg-jungleDeep border border-emerald-900/40 text-emerald-400 font-impact text-[10px] sm:text-xs uppercase tracking-wider px-2 sm:px-3 py-1">#브라질_야생_전사</span>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                                <a href="#stats" class="bg-chamaRed hover:bg-red-700 text-center text-white font-impact tracking-widest text-sm uppercase px-6 py-3.5 transition-all duration-300">
+                                    기술 분석 데이터 보기 <i class="fa-solid fa-arrow-trend-up ml-1.5"></i>
+                                </a>
+                                <a href="#origin" class="border border-gray-600 hover:border-white text-center text-white font-impact tracking-widest text-sm uppercase px-6 py-3.5 transition-all duration-300">
+                                    전사의 기원 <i class="fa-solid fa-person-rifle ml-1.5"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 미니 통계 대시보드 -->
+                        <div class="bg-jungleDeep/40 border border-jungleDeep p-5 sm:p-8 backdrop-blur-sm relative mt-4 lg:mt-0">
+                            <div class="absolute top-0 right-0 bg-chamaRed text-white font-impact text-[10px] sm:text-xs px-2.5 py-1 tracking-widest uppercase">
+                                LIVE RECORD
+                            </div>
+                            <h3 class="font-impact text-xl sm:text-2xl text-gray-300 tracking-wider mb-4 sm:mb-6">UFC 전적 대시보드</h3>
+                            <div class="grid grid-cols-3 gap-2 sm:gap-4 text-center mb-4 sm:mb-6">
+                                <div class="p-2 sm:p-4 bg-jungleDark/60 border border-jungleDeep">
+                                    <div class="font-impact text-2xl sm:text-4xl text-white">10</div>
+                                    <div class="text-[9px] sm:text-xs text-gray-500 font-semibold tracking-wide">승 (WINS)</div>
+                                </div>
+                                <div class="p-2 sm:p-4 bg-jungleDark/60 border border-jungleDeep">
+                                    <div class="font-impact text-2xl sm:text-4xl text-chamaRed">8</div>
+                                    <div class="text-[9px] sm:text-xs text-gray-500 font-semibold tracking-wide">KO/TKO</div>
+                                </div>
+                                <div class="p-2 sm:p-4 bg-jungleDark/60 border border-jungleDeep">
+                                    <div class="font-impact text-2xl sm:text-4xl text-white">2</div>
+                                    <div class="text-[9px] sm:text-xs text-gray-500 font-semibold tracking-wide">패 (LOSS)</div>
+                                </div>
+                            </div>
+                            <div class="space-y-2.5 text-xs sm:text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">UFC 미들급 챔피언</span>
+                                    <span class="text-goldAccent font-bold">전(前) 보유</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">UFC 라이트헤비급 챔피언</span>
+                                    <span class="text-goldAccent font-bold">현(現) 보유</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">체급 석권 도전력</span>
+                                    <span class="text-red-400 font-bold">세 체급 목표 진행 중</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2단계: 경기 기술 분석 -->
+                <section id="stats" class="py-16 sm:py-24 bg-jungleDark relative z-20 border-t border-jungleDeep/30">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                        <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+                            <span class="text-chamaRed font-impact tracking-widest uppercase text-xs sm:text-sm">TECHNICAL ANALYSIS</span>
+                            <h2 class="font-epic text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-1 mb-3">불합리함을 분석하다</h2>
+                            <p class="text-xs sm:text-sm text-gray-400 px-2">글로벌 하드코어 격투기 분석팀이 전하는 알렉스 페레이라의 치명적인 전술적 무기 분석표.</p>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-6 lg:grid-cols-3 lg:gap-8">
+                            <div class="bg-jungleDeep/20 border border-jungleDeep p-6 sm:p-8 hover:border-chamaRed transition-all duration-300 group">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-chamaRed/10 text-chamaRed rounded-full flex items-center justify-center mb-5 group-hover:bg-chamaRed group-hover:text-white transition-all duration-300">
+                                    <i class="fa-solid fa-hand-fist text-sm sm:text-base"></i>
+                                </div>
+                                <h3 class="font-impact text-xl sm:text-2xl text-white tracking-wide mb-2.5">불합리한 레프트 훅</h3>
+                                <p class="text-gray-400 text-xs sm:text-sm leading-relaxed mb-5 break-words">
+                                    상대의 펀치 궤적 안쪽을 순식간에 뚫고 들어오는 치명적인 타격입니다. 사전 예비 동작이 전혀 없으며, 뇌를 흔드는 압도적인 파워는 고유 무기입니다.
+                                </p>
+                                <div class="border-t border-jungleDeep/50 pt-3.5">
+                                    <span class="text-[10px] text-gray-500 font-semibold block uppercase">KO 확률</span>
+                                    <div class="w-full bg-jungleDark h-2 mt-1 relative">
+                                        <div class="absolute bg-chamaRed h-full" style="width: 95%;"></div>
+                                    </div>
+                                    <span class="text-right block text-xs text-chamaRed font-bold mt-1">95%</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-jungleDeep/20 border border-jungleDeep p-6 sm:p-8 hover:border-chamaRed transition-all duration-300 group">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-chamaRed/10 text-chamaRed rounded-full flex items-center justify-center mb-5 group-hover:bg-chamaRed group-hover:text-white transition-all duration-300">
+                                    <i class="fa-solid fa-shoe-prints text-sm sm:text-base"></i>
+                                </div>
+                                <h3 class="font-impact text-xl sm:text-2xl text-white tracking-wide mb-2.5">저격형 로우/카프 킥</h3>
+                                <p class="text-gray-400 text-xs sm:text-sm leading-relaxed mb-5 break-words">
+                                    거리 싸움의 정점. 상대방이 전진 스텝을 밟으려 하는 찰나의 엇박자로 정강이 바깥쪽 인대를 타격하여 기동성을 완전히 마비시키는 전략적 카드입니다.
+                                </p>
+                                <div class="border-t border-jungleDeep/50 pt-3.5">
+                                    <span class="text-[10px] text-gray-500 font-semibold block uppercase">거리 조절 유효성</span>
+                                    <div class="w-full bg-jungleDark h-2 mt-1 relative">
+                                        <div class="absolute bg-chamaRed h-full" style="width: 88%;"></div>
+                                    </div>
+                                    <span class="text-right block text-xs text-chamaRed font-bold mt-1">88%</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-jungleDeep/20 border border-jungleDeep p-6 sm:p-8 hover:border-chamaRed transition-all duration-300 group">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-chamaRed/10 text-chamaRed rounded-full flex items-center justify-center mb-5 group-hover:bg-chamaRed group-hover:text-white transition-all duration-300">
+                                    <i class="fa-solid fa-robot text-sm sm:text-base"></i>
+                                </div>
+                                <h3 class="font-impact text-xl sm:text-2xl text-white tracking-wide mb-2.5">감정 제로의 계산</h3>
+                                <p class="text-gray-400 text-xs sm:text-sm leading-relaxed mb-5 break-words">
+                                    격렬한 난타전 속에서도 호흡과 표정이 전혀 변하지 않는 정교한 연산 기계 상태를 유지하며 철저히 카운터 타이밍만을 조율해 냅니다.
+                                </p>
+                                <div class="border-t border-jungleDeep/50 pt-3.5">
+                                    <span class="text-[10px] text-gray-500 font-semibold block uppercase">마인드 컨트롤력</span>
+                                    <div class="w-full bg-jungleDark h-2 mt-1 relative">
+                                        <div class="absolute bg-chamaRed h-full" style="width: 99%;"></div>
+                                    </div>
+                                    <span class="text-right block text-xs text-chamaRed font-bold mt-1">99%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 타격 히트 맵 -->
+                        <div class="mt-12 sm:mt-16 bg-jungleDeep/10 border border-jungleDeep/50 p-5 sm:p-8 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                            <div>
+                                <span class="bg-chamaRed/10 text-chamaRed font-impact text-[10px] sm:text-xs tracking-widest px-2.5 py-1 uppercase rounded-sm">INFOGRAPHIC</span>
+                                <h3 class="font-impact text-2xl sm:text-3xl text-white mt-3 mb-4 sm:mb-6">타격 타겟 정밀 분포도</h3>
+                                <p class="text-xs sm:text-sm text-gray-300 mb-5 sm:mb-6 leading-relaxed">
+                                    아래 스위치를 통해 알렉스 페레이라가 승리를 가져간 결정적인 타격 포인트를 확인해 보세요. 유효 타격 비율은 얼굴(레프트 훅)과 하체(카프 킥) 위주로 집중 구성되어 있습니다.
+                                </p>
+                                
+                                <div class="space-y-2.5 sm:space-y-4 text-xs sm:text-sm">
+                                    <button onclick="highlightTarget('head')" class="w-full flex items-center justify-between p-3.5 bg-jungleDark hover:bg-jungleDeep/50 border border-jungleDeep text-left transition-all duration-300">
+                                        <span class="flex items-center gap-2.5">
+                                            <i class="fa-solid fa-skull text-chamaRed"></i>
+                                            <span class="font-bold text-gray-200">머리 (레프트 훅 카운터 타격)</span>
+                                        </span>
+                                        <span class="font-impact text-chamaRed font-bold text-base sm:text-lg">65.3%</span>
+                                    </button>
+                                    <button onclick="highlightTarget('body')" class="w-full flex items-center justify-between p-3.5 bg-jungleDark hover:bg-jungleDeep/50 border border-jungleDeep text-left transition-all duration-300">
+                                        <span class="flex items-center gap-2.5">
+                                            <i class="fa-solid fa-shield text-emerald-400"></i>
+                                            <span class="font-bold text-gray-200">몸통 (프론트 킥 바디셋)</span>
+                                        </span>
+                                        <span class="font-impact text-emerald-400 font-bold text-base sm:text-lg">12.4%</span>
+                                    </button>
+                                    <button onclick="highlightTarget('legs')" class="w-full flex items-center justify-between p-3.5 bg-jungleDark hover:bg-jungleDeep/50 border border-jungleDeep text-left transition-all duration-300">
+                                        <span class="flex items-center gap-2.5">
+                                            <i class="fa-solid fa-shoe-prints text-goldAccent"></i>
+                                            <span class="font-bold text-gray-200">다리 (로우 카프킥 누적 데미지)</span>
+                                        </span>
+                                        <span class="font-impact text-goldAccent font-bold text-base sm:text-lg">22.3%</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-center items-center py-4">
+                                <div class="relative w-48 h-[320px] sm:w-64 sm:h-[400px]">
+                                    <svg class="w-full h-full text-stone-700" viewBox="0 0 100 220">
+                                        <circle id="dummy-head" cx="50" cy="25" r="12" class="fill-current transition-all duration-500 hover:text-chamaRed cursor-pointer" />
+                                        <path id="dummy-body" d="M38 40 L62 40 L66 110 L34 110 Z" class="fill-current transition-all duration-500 hover:text-emerald-400 cursor-pointer" />
+                                        <path d="M34 40 L22 90 L28 92 L36 45 Z" class="fill-current" />
+                                        <path d="M66 40 L78 90 L72 92 L64 45 Z" class="fill-current" />
+                                        <path id="dummy-legs" d="M35 112 L43 205 L49 205 L48 112 Z M52 112 L51 205 L57 205 L65 112 Z" class="fill-current transition-all duration-500 hover:text-goldAccent cursor-pointer" />
+                                    </svg>
+
+                                    <div id="target-label" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-jungleDark border-2 border-chamaRed text-white text-[11px] font-bold px-3 py-1.5 opacity-0 scale-75 transition-all duration-300 pointer-events-none shadow-2xl text-center whitespace-nowrap">
+                                        타겟 분석 로딩 중
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3단계: 전사의 기원 -->
+                <section id="origin" class="py-16 sm:py-24 bg-jungleDeep/10 relative z-20">
+                    <div class="absolute inset-0 bg-gradient-to-b from-jungleDark via-transparent to-jungleDark opacity-80"></div>
+                    
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+                        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                            <div class="relative group order-2 lg:order-1">
+                                <div class="absolute inset-0 border-2 border-chamaRed translate-x-3 translate-y-3 -z-10 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-300"></div>
+                                <div class="bg-jungleDark p-3 sm:p-4 border border-jungleDeep">
+                                    <div class="w-full h-64 sm:h-96 bg-cover bg-center flex items-center justify-center relative overflow-hidden" style="background-image: linear-gradient(135deg, #1c3d2a, #070f0b);">
+                                        <div class="absolute inset-0 bg-black/40"></div>
+                                        
+                                        <svg class="w-48 h-48 sm:w-64 sm:h-64 text-chamaRed fill-none stroke-current stroke-2 pulse-chama" viewBox="0 0 100 100">
+                                            <circle cx="50" cy="50" r="40" class="opacity-10" />
+                                            <path d="M50 10 C 25 30, 25 70, 50 90" />
+                                            <line x1="50" y1="10" x2="50" y2="90" stroke-dasharray="2,2" />
+                                            <line x1="20" y1="50" x2="80" y2="50" stroke="#ecc94b" stroke-width="3" />
+                                            <polygon points="80,50 72,45 72,55" fill="#ecc94b" />
+                                        </svg>
+                                        
+                                        <span class="absolute bottom-4 left-4 bg-jungleDark/80 backdrop-blur-md px-3 py-1.5 border border-jungleDeep text-[10px] sm:text-xs font-bold text-gray-300">
+                                            <i class="fa-solid fa-tree mr-1.5 text-emerald-400"></i> 브라질 파타쇼(Pataxó) 전사의 기운
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="order-1 lg:order-2">
+                                <span class="text-chamaRed font-impact tracking-widest uppercase text-xs sm:text-sm">THE ORIGIN & DESTINY</span>
+                                <h2 class="font-epic text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-1 mb-6 sm:mb-8">대지와 전사의 기원</h2>
+                                
+                                <div class="space-y-6 sm:space-y-8 border-l-2 border-jungleDeep pl-4 sm:pl-6 text-xs sm:text-sm">
+                                    <div class="relative">
+                                        <span class="absolute -left-[25px] sm:-left-[31px] top-1 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-chamaRed border-4 border-jungleDark"></span>
+                                        <h4 class="font-impact text-lg sm:text-xl text-white tracking-wide">야생의 극복: 혹독한 청년기</h4>
+                                        <p class="text-gray-400 mt-1.5 leading-relaxed">
+                                            타이어 숍 노동자에서 격투 전사로. 가난과 악조건 속에서도 고유의 정신력을 바탕으로 킥복싱 세계 무대를 제패했습니다.
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="relative">
+                                        <span class="absolute -left-[25px] sm:-left-[31px] top-1 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-emerald-400 border-4 border-jungleDark"></span>
+                                        <h4 class="font-impact text-lg sm:text-xl text-white tracking-wide">파타쇼 부족의 후예로서 서다</h4>
+                                        <p class="text-gray-400 mt-1.5 leading-relaxed">
+                                            페이스 페인팅과 활쏘기 퍼포먼스는 대지의 힘과 조상의 기를 가슴속에 품고 링에 오른다는 야생 전사의 맹세입니다.
+                                        </p>
+                                    </div>
+
+                                    <div class="relative">
+                                        <span class="absolute -left-[25px] sm:-left-[31px] top-1 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-goldAccent border-4 border-jungleDark"></span>
+                                        <h4 class="font-impact text-lg sm:text-xl text-white tracking-wide">UFC 역사를 바꾸다: 두 체급 석권</h4>
+                                        <p class="text-gray-400 mt-1.5 leading-relaxed">
+                                            미들급 제패에 이어 라이트헤비급마저 파괴적인 무력으로 평정하며 최단기간 역사적인 두 챔피언 벨트를 손에 쥐었습니다.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4단계: 일상의 반전 매력 (Chama Meme) -->
+                <section id="media" class="py-16 sm:py-24 bg-jungleDark relative z-20 border-t border-jungleDeep/30">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                        <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+                            <span class="text-chamaRed font-impact tracking-widest uppercase text-xs sm:text-sm">THE POKERFACE VS MEME</span>
+                            <h2 class="font-epic text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-1 mb-3">냉혈 머신 뒤의 은밀한 반전</h2>
+                            <p class="text-xs sm:text-sm text-gray-400 px-2">경기장의 무자비한 사냥꾼 뒤에 숨겨진 페레이라 특유의 개그 밈과 유머 감각.</p>
+                        </div>
+
+                        <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+                            <div class="lg:col-span-7 grid sm:grid-cols-2 gap-4 order-2 lg:order-1 text-xs sm:text-sm">
+                                <div class="bg-jungleDeep/20 border border-jungleDeep p-5 sm:p-6">
+                                    <div class="flex items-center gap-2 mb-2.5">
+                                        <i class="fa-brands fa-instagram text-pink-500 text-sm"></i>
+                                        <span class="text-[10px] text-gray-400 font-semibold">@alexpoatanpereira</span>
+                                    </div>
+                                    <h4 class="font-bold text-base sm:text-lg mb-1.5">"CHAMA"는 무슨 의미?</h4>
+                                    <p class="text-gray-400 leading-relaxed">
+                                        포르투갈어의 감탄사로 '가자!' 혹은 '불꽃'을 뜻하며, 페레이라가 SNS 피드마다 사용하는 시그니처 긍정 유행어입니다.
+                                    </p>
+                                </div>
+
+                                <div class="bg-jungleDeep/20 border border-jungleDeep p-5 sm:p-6">
+                                    <div class="flex items-center gap-2 mb-2.5">
+                                        <i class="fa-brands fa-youtube text-red-500 text-sm"></i>
+                                        <span class="text-[10px] text-gray-400 font-semibold">훈련장 비하인드</span>
+                                    </div>
+                                    <h4 class="font-bold text-base sm:text-lg mb-1.5">침묵 속의 예능감</h4>
+                                    <p class="text-gray-400 leading-relaxed">
+                                        동료 파이터의 우스꽝스러운 연출을 뒤에서 가만히 무표정으로 응시하는 무음 개그로 반전 매력을 선사합니다.
+                                    </p>
+                                </div>
+
+                                <div class="bg-jungleDeep/20 border border-jungleDeep p-5 sm:p-6 sm:col-span-2">
+                                    <h4 class="font-bold text-base sm:text-lg mb-1.5"><i class="fa-solid fa-face-smile-wink mr-1.5 text-yellow-400"></i> 팬들의 원픽 돌하르방 밈</h4>
+                                    <p class="text-gray-400 leading-relaxed">
+                                        일상의 어떤 스릴 넘치거나 감동적인 순간을 마주해도 100% 한결같은 완벽 포커페이스 표정을 보여주는 밈 구조로 대중적 사랑을 독차지하고 있습니다.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-5 bg-jungleDeep/30 border-2 border-dashed border-jungleDeep/60 p-6 sm:p-8 text-center relative overflow-hidden order-1 lg:order-2 mb-4 lg:mb-0">
+                                <div class="relative z-10">
+                                    <span class="text-[10px] text-goldAccent font-impact tracking-widest uppercase block mb-1.5">INTERACTIVE EASTER EGG</span>
+                                    <h3 class="font-impact text-xl sm:text-2xl text-white mb-4 sm:mb-6">그의 포커페이스를 흔들어보세요</h3>
+                                    
+                                    <!-- 💥 물리 타격 감도 연동 클릭 타겟 -->
+                                    <div onclick="triggerChamaEvent(event, 'stoneface')" class="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto cursor-pointer group mb-5 select-none">
+                                        <div class="absolute inset-0 bg-chamaRed/10 rounded-full group-hover:bg-chamaRed/20 transition-all duration-300 blur-xl"></div>
+                                        <svg id="stoneface-svg" class="w-full h-full text-stoneGray group-hover:text-gray-400 transition-colors duration-200 fill-current" viewBox="0 0 100 100">
+                                            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="4" />
+                                            <path d="M30 35 L70 35" stroke="currentColor" stroke-width="4" />
+                                            <line x1="32" y1="45" x2="44" y2="45" stroke="currentColor" stroke-width="4" />
+                                            <line x1="56" y1="45" x2="68" y2="45" stroke="currentColor" stroke-width="4" />
+                                            <path d="M50 40 L50 65 L44 65" fill="none" stroke="currentColor" stroke-width="4" />
+                                            <line x1="35" y1="75" x2="65" y2="75" stroke="currentColor" stroke-width="5" />
+                                        </svg>
+                                    </div>
+                                    
+                                    <p class="text-xs text-gray-400 leading-relaxed mb-4">
+                                        위의 단단한 무표정 아이콘을 격타해 보세요! <br>페레이라 전매특허의 가상 사운드 이펙트가 발생합니다.
+                                    </p>
+                                    
+                                    <div id="meme-soundboard" class="font-impact text-lg sm:text-xl text-chamaRed min-h-[28px] opacity-0 transition-opacity duration-300">
+                                        "CHAMA!! 🔥"
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5단계: 공식 프리미엄 굿즈 샵 -->
+                <section id="shop" class="py-16 sm:py-24 bg-jungleDeep/5 relative z-20">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 sm:mb-16 gap-3">
+                            <div>
+                                <span class="text-chamaRed font-impact tracking-widest uppercase text-xs sm:text-sm">OFFICIAL APPAREL & GEAR</span>
+                                <h2 class="font-epic text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-1">전사의 갑옷을 입다</h2>
+                            </div>
+                            <p class="text-xs sm:text-sm text-gray-400 max-w-md">
+                                페레이라 고유의 시그니처 밈 브랜드 'CHAMA' 유니폼 및 프리미엄 글러브 라인업 공식 판매 채널.
+                            </p>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8">
+                            <!-- 상품 1 -->
+                            <div class="bg-jungleDark border border-jungleDeep/80 hover:border-chamaRed transition-all duration-300 flex flex-col justify-between group">
+                                <div class="p-4 bg-jungleDeep/10 flex items-center justify-center relative overflow-hidden h-60 sm:h-72">
+                                    <svg class="w-24 h-24 sm:w-32 sm:h-32 text-gray-800 fill-current group-hover:scale-105 transition-transform duration-300" viewBox="0 0 24 24">
+                                        <path d="M18.06 23h-12c-.55 0-1-.45-1-1v-12.02l-2.06-2.06c-.4-.4-.51-.99-.28-1.5l1.62-3.6c.21-.47.69-.78 1.21-.78h2.02c.28 1.41 1.51 2.48 3 2.48s2.72-1.07 3-2.48h2.02c.52 0 1 .31 1.21.78l1.62 3.6c.23.51.12 1.1-.28 1.5l-2.06 2.06v12.02c0 .55-.45 1-1 1z"/>
+                                    </svg>
+                                    <span class="absolute top-3 left-3 bg-chamaRed text-white font-impact text-[10px] uppercase px-2 py-0.5 tracking-wider">BEST SELLER</span>
+                                    <div class="absolute text-center">
+                                        <span class="font-impact text-2xl sm:text-3xl text-chamaRed/70 uppercase">CHAMA</span>
+                                    </div>
+                                </div>
+                                <div class="p-5 border-t border-jungleDeep/50 text-xs sm:text-sm">
+                                    <span class="text-[10px] text-emerald-400 font-semibold tracking-wider block uppercase mb-0.5">Chama 오리지널스</span>
+                                    <h3 class="font-impact text-lg text-white tracking-wide mb-1.5">"CHAMA!" 프리미엄 후드티</h3>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <span class="font-impact text-xl text-white">$79.00</span>
+                                        <button onclick="openPurchaseModal('CHAMA! 프리미엄 후드티', 79.00)" class="bg-chamaRed text-white font-impact text-xs tracking-widest uppercase px-3 py-2 hover:bg-white hover:text-jungleDark transition-colors duration-300">
+                                            즉시 소장 <i class="fa-solid fa-cart-shopping ml-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 상품 2 -->
+                            <div class="bg-jungleDark border border-jungleDeep/80 hover:border-chamaRed transition-all duration-300 flex flex-col justify-between group">
+                                <div class="p-4 bg-jungleDeep/10 flex items-center justify-center relative overflow-hidden h-60 sm:h-72">
+                                    <svg class="w-24 h-24 sm:w-32 sm:h-32 text-gray-800 fill-current group-hover:scale-105 transition-transform duration-300" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                                    </svg>
+                                    <span class="absolute top-3 left-3 bg-goldAccent text-jungleDark font-impact text-[10px] uppercase px-2 py-0.5 tracking-wider">LIMITED</span>
+                                    <div class="absolute text-center">
+                                        <span class="font-impact text-lg sm:text-xl text-yellow-500/80 uppercase">POATAN 12OZ</span>
+                                    </div>
+                                </div>
+                                <div class="p-5 border-t border-jungleDeep/50 text-xs sm:text-sm">
+                                    <span class="text-[10px] text-emerald-400 font-semibold tracking-wider block uppercase mb-0.5">한정판 프로 기어</span>
+                                    <h3 class="font-impact text-lg text-white tracking-wide mb-1.5">"포아탄" 시그니처 글러브</h3>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <span class="font-impact text-xl text-white">$149.00</span>
+                                        <button onclick="openPurchaseModal('포아탄 시그니처 글러브', 149.00)" class="bg-chamaRed text-white font-impact text-xs tracking-widest uppercase px-3 py-2 hover:bg-white hover:text-jungleDark transition-colors duration-300">
+                                            즉시 소장 <i class="fa-solid fa-cart-shopping ml-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 상품 3 -->
+                            <div class="bg-jungleDark border border-jungleDeep/80 hover:border-chamaRed transition-all duration-300 flex flex-col justify-between group sm:col-span-2 md:col-span-1">
+                                <div class="p-4 bg-jungleDeep/10 flex items-center justify-center relative overflow-hidden h-60 sm:h-72">
+                                    <svg class="w-24 h-24 sm:w-32 sm:h-32 text-gray-800 fill-current group-hover:scale-105 transition-transform duration-300" viewBox="0 0 24 24">
+                                        <path d="M12 3c-4.97 0-9 4.03-9 9 0 .58.07 1.15.18 1.7L1 16l14-2.5V3H12zm1 14.5h-2v-2h2v2zm0-4.5h-2V7h2v5z"/>
+                                    </svg>
+                                    <div class="absolute text-center">
+                                        <span class="font-impact text-2xl sm:text-3xl text-emerald-600/40 uppercase">WARRIOR</span>
+                                    </div>
+                                </div>
+                                <div class="p-5 border-t border-jungleDeep/50 text-xs sm:text-sm">
+                                    <span class="text-[10px] text-emerald-400 font-semibold tracking-wider block uppercase mb-0.5">데일리 악세서리</span>
+                                    <h3 class="font-impact text-lg text-white tracking-wide mb-1.5">PATAXÓ 전사 자수 볼캡</h3>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <span class="font-impact text-xl text-white">$35.00</span>
+                                        <button onclick="openPurchaseModal('PATAXÓ 전사 자수 볼캡', 35.00)" class="bg-chamaRed text-white font-impact text-xs tracking-widest uppercase px-3 py-2 hover:bg-white hover:text-jungleDark transition-colors duration-300">
+                                            즉시 소장 <i class="fa-solid fa-cart-shopping ml-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6단계: CHAMA 팬 전용 인터랙티브 스피드 퀴즈 섹션 -->
+                <section id="quiz-section" class="py-16 sm:py-24 bg-jungleDark relative z-20 border-t border-jungleDeep/30">
+                    <div class="max-w-2xl mx-auto px-4 sm:px-6">
+                        <div class="text-center mb-10">
+                            <span class="text-chamaRed font-impact tracking-widest uppercase text-xs sm:text-sm">FAN VERIFICATION QUIZ</span>
+                            <h2 class="font-epic text-3xl sm:text-4xl font-black text-white mt-1 mb-2">CHAMA 스피드 검증</h2>
+                            <p class="text-xs sm:text-sm text-gray-400">페레이라의 진정한 추종자임을 입증하고 고유 전사의 칭호를 획득하십시오.</p>
+                        </div>
+
+                        <!-- 퀴즈 카드 인터페이스 -->
+                        <div class="bg-jungleDeep/20 border border-jungleDeep p-6 sm:p-8 backdrop-blur-md">
+                            <div class="flex justify-between items-center text-xs text-gray-500 font-bold mb-4">
+                                <span id="quiz-progress-text">QUESTION 1 / 3</span>
+                                <span id="quiz-score-live" class="text-goldAccent">SCORE: 0 PT</span>
+                            </div>
+
+                            <div id="quiz-card-content">
+                                <h3 id="quiz-question" class="text-base sm:text-lg font-bold text-gray-100 mb-6 leading-relaxed">
+                                    질문이 로드되는 중입니다...
+                                </h3>
+                                <div id="quiz-options" class="space-y-3"></div>
+                            </div>
+
+                            <!-- 결과 레이아웃 콘솔 -->
+                            <div id="quiz-result-box" class="hidden text-center py-4">
+                                <div id="badge-icon" class="text-5xl sm:text-6xl text-goldAccent mb-4"><i class="fa-solid fa-trophy"></i></div>
+                                <h4 class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-1">최종 등급 판정 결과</h4>
+                                <div id="final-tier" class="font-impact text-2xl sm:text-3xl text-white tracking-wide mb-2">GOLD</div>
+                                <div id="final-title" class="inline-block bg-chamaRed/10 border border-chamaRed text-chamaRed font-bold text-sm px-4 py-1.5 mb-6 font-sans">칭호 명칭</div>
+                                <p id="quiz-summary" class="text-xs sm:text-sm text-gray-400 leading-relaxed mb-6 px-2">점수 피드백 요약 내용</p>
+                                <button onclick="restartQuiz()" class="border border-gray-600 hover:border-white text-white font-impact text-xs tracking-widest uppercase px-6 py-3 transition-colors">
+                                    다시 도전하기 <i class="fa-solid fa-rotate-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7단계: 팬 댓글 존 (Fan Zone) -->
+                <section id="comments" class="py-16 sm:py-24 bg-jungleDeep/10 relative z-20 border-t border-jungleDeep/30">
+                    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                        <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+                            <span class="text-chamaRed font-impact tracking-widest uppercase text-xs sm:text-sm">FAN COMMENTS</span>
+                            <h2 class="font-epic text-3xl sm:text-4xl font-black text-white mt-1 mb-3">전사에게 보내는 함성</h2>
+                            <p class="text-xs sm:text-sm text-gray-400">알렉스 페레이라를 응원하는 글로벌 팬들의 실시간 대화창.</p>
+                        </div>
+
+                        <!-- 댓글 입력 폼 레이아웃 -->
+                        <form onsubmit="submitComment(event)" class="bg-jungleDark border border-jungleDeep p-4 sm:p-6 mb-8 text-xs sm:text-sm">
+                            <div class="grid sm:grid-cols-4 gap-3 mb-3">
+                                <input type="text" id="comment-author" placeholder="닉네임" required max="12" class="sm:col-span-1 bg-jungleDeep/40 border border-jungleDeep p-3 text-white placeholder-gray-500 focus:outline-none focus:border-chamaRed rounded-none">
+                                <input type="text" id="comment-text" placeholder="응원의 메시지를 남겨보세요! (예: CHAMA!! 🔥)" required class="sm:col-span-3 bg-jungleDeep/40 border border-jungleDeep p-3 text-white placeholder-gray-500 focus:outline-none focus:border-chamaRed rounded-none">
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="w-full sm:w-auto bg-chamaRed hover:bg-red-700 text-white font-impact tracking-widest uppercase px-8 py-3 transition-colors duration-300 text-xs sm:text-sm">
+                                    댓글 등록 <i class="fa-solid fa-paper-plane ml-1.5"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- 댓글 동적 로드 컨테이너 -->
+                        <div id="comment-list" class="space-y-3.5 max-h-[380px] overflow-y-auto pr-2">
+                            <div class="bg-jungleDeep/20 border border-jungleDeep/50 p-4">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="font-bold text-goldAccent text-xs">UFC_Fan_No1</span>
+                                    <span class="text-[10px] text-gray-500 font-semibold">2026.07.13</span>
+                                </div>
+                                <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">진짜 왼손 훅 들어갈 때 소름 돋았습니다.. CHAMA!! 다음 라이트헤비급 방어전도 무조건 KO 타이밍 직관 갈 겁니다.</p>
+                            </div>
+                            <div class="bg-jungleDeep/20 border border-jungleDeep/50 p-4">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="font-bold text-gray-300 text-xs">옥타곤지기</span>
+                                    <span class="text-[10px] text-gray-500 font-semibold">2026.07.12</span>
+                                </div>
+                                <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">인포그래픽 카프킥 비율 보소.. 철저히 계산된 격투 지능이 포커페이스 뒤에 숨어있는 게 페레이라의 진짜 무서운 점임.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 비즈니스 / 컨택 섹션 -->
+                <section class="py-16 sm:py-24 bg-jungleDark border-t border-jungleDeep/50 relative z-20">
+                    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                        <span class="text-chamaRed font-impact tracking-widest uppercase text-xs sm:text-sm">SPONSORSHIP & PRESS</span>
+                        <h2 class="font-epic text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-1 mb-4 sm:mb-6">전사와 동행하십시오</h2>
+                        <p class="text-xs sm:text-sm text-gray-400 mb-8 sm:mb-10 leading-relaxed max-w-2xl mx-auto px-2">
+                            글로벌 챔피언 알렉스 페레이라와 비즈니스 파트너십, 글로벌 미디어 스폰서십을 제안할 다이렉트 창구입니다.
+                        </p>
+                        
+                        <form onsubmit="handleInquiry(event)" class="space-y-3 sm:space-y-4 max-w-lg mx-auto bg-jungleDeep/20 border border-jungleDeep p-5 sm:p-8 text-xs sm:text-sm">
+                            <div class="grid sm:grid-cols-2 gap-3 sm:gap-4">
+                                <input type="text" placeholder="회사/브랜드 명" required class="bg-jungleDark border border-jungleDeep p-3 text-white placeholder-gray-500 focus:outline-none focus:border-chamaRed rounded-none">
+                                <input type="email" placeholder="회신 이메일 주소" required class="bg-jungleDark border border-jungleDeep p-3 text-white placeholder-gray-500 focus:outline-none focus:border-chamaRed rounded-none">
+                            </div>
+                            <textarea placeholder="제안 사항을 상세히 작성해 주십시오." rows="4" required class="w-full bg-jungleDark border border-jungleDeep p-3 text-white placeholder-gray-500 focus:outline-none focus:border-chamaRed rounded-none"></textarea>
+                            <button type="submit" class="w-full bg-chamaRed text-white font-impact tracking-widest uppercase py-3.5 hover:bg-red-700 transition-colors duration-300 text-sm">
+                                비즈니스 제안 전송 <i class="fa-solid fa-paper-plane ml-1.5"></i>
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- 푸터 영역 -->
+                <footer class="bg-jungleDark/90 border-t border-jungleDeep py-8 sm:py-12 text-center text-xs text-gray-500 relative z-20">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
+                        <div class="flex items-center gap-2">
+                            <span class="font-impact text-lg sm:text-xl text-white tracking-widest">POATAN <span class="text-chamaRed">CHAMA</span></span>
+                        </div>
+                        <p class="text-[10px] sm:text-xs text-gray-600 px-4">&copy; 2026 ALEX "POATAN" PEREIRA. 모든 요구 기능이 통합된 고성능 레이아웃입니다.</p>
+                        <div class="flex gap-4 text-gray-400 text-base sm:text-lg">
+                            <a href="#" class="hover:text-chamaRed"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="hover:text-chamaRed"><i class="fa-brands fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </footer>
+
+                <!-- 가상 굿즈 구매 알림 커스텀 모달 -->
+                <div id="purchase-modal" class="dynamic-fixed fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+                    <div class="bg-jungleDeep border-2 border-chamaRed p-6 sm:p-8 max-w-sm sm:max-w-md w-full text-center relative text-xs sm:text-sm">
+                        <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                            <i class="fa-solid fa-xmark text-lg sm:text-xl"></i>
+                        </button>
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-chamaRed/10 text-chamaRed rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                            <i class="fa-solid fa-check text-xl sm:text-2xl"></i>
+                        </div>
+                        <h3 class="font-impact text-xl sm:text-2xl text-white mb-1.5">소장 구매 접수 완료!</h3>
+                        <p id="modal-product-name" class="text-goldAccent font-bold text-base sm:text-lg mb-3">상품명</p>
+                        <p class="text-gray-400 leading-relaxed mb-5 sm:mb-6 font-sans">
+                            공식 팬 허브 가상 테스트 주문이 정상 처리되었습니다. <br><span class="text-chamaRed font-bold">"CHAMA!!"</span> 힘찬 기운과 함께 좋은 하루 보내세요!
+                        </p>
+                        <button onclick="closeModal()" class="w-full bg-chamaRed text-white font-impact tracking-widest py-3 uppercase text-sm hover:bg-red-700 transition-colors">
+                            CHAMA!
+                        </button>
+                    </div>
+                </div>
+
+            </div> <!-- app-container eof -->
+        </div> <!-- device-shell eof -->
+    </div> <!-- viewport-wrapper eof -->
+
+    <script>
+        // 전역 상태 변수
+        let currentMode = 'desktop'; 
+        let particles = [];
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // 🌟 뷰포트 스위처 엔진 (데스크톱 <-> 모바일 디바이스 프레임)
+        function switchViewMode(mode) {
+            currentMode = mode;
+            const wrapper = document.getElementById('viewport-wrapper');
+            const shell = document.getElementById('device-shell');
+            const app = document.getElementById('app-container');
+            const hwTop = document.getElementById('device-hardware-top');
+            const hwBottom = document.getElementById('device-hardware-bottom');
+            
+            const btnDesktop = document.getElementById('btn-view-desktop');
+            const btnMobile = document.getElementById('btn-view-mobile');
+
+            if (mode === 'mobile') {
+                // 모바일 스마트폰 껍데기 활성화
+                wrapper.className = "w-full min-h-screen bg-zinc-950 flex justify-center items-center py-8 transition-all duration-500";
+                shell.className = "w-[375px] h-[812px] rounded-[48px] border-[14px] border-neutral-800 bg-jungleDark shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] overflow-hidden relative transition-all duration-500 ease-in-out";
+                app.className = "w-full h-full overflow-y-auto scroll-smooth bg-jungleDark relative";
+                
+                hwTop.classList.remove('hidden');
+                hwBottom.classList.remove('hidden');
+
+                btnMobile.className = "px-4 py-1.5 rounded-md bg-chamaRed text-white transition-all flex items-center gap-1.5";
+                btnDesktop.className = "px-4 py-1.5 rounded-md text-gray-400 hover:text-white transition-all flex items-center gap-1.5";
+
+                // 모바일 모드 시 fixed 레이어들을 absolute 형태로 전환하여 시뮬레이터 내부에 격리
+                updateFixedElements('mobile');
+
+                // 모바일 시뮬레이터 내부 스크롤 이벤트 바인딩 전파
+                app.addEventListener('scroll', handleMobileScroll);
+                window.removeEventListener('scroll', handleDesktopScroll);
+            } else {
+                // 데스크톱 전체화면 복구
+                wrapper.className = "w-full min-h-screen bg-neutral-950 flex justify-center items-start pt-6 pb-12 transition-all duration-500";
+                shell.className = "w-full transition-all duration-500 ease-in-out relative flex flex-col";
+                app.className = "w-full h-full relative bg-jungleDark overflow-x-hidden";
+
+                hwTop.classList.add('hidden');
+                hwBottom.classList.add('hidden');
+
+                btnDesktop.className = "px-4 py-1.5 rounded-md bg-chamaRed text-white transition-all flex items-center gap-1.5";
+                btnMobile.className = "px-4 py-1.5 rounded-md text-gray-400 hover:text-white transition-all flex items-center gap-1.5";
+
+                // 고정 요소들을 본래의 viewport 브라우저 fixed 모드로 회복
+                updateFixedElements('desktop');
+
+                // 일반 윈도우 스크롤바 바인딩 복구
+                app.removeEventListener('scroll', handleMobileScroll);
+                window.addEventListener('scroll', handleDesktopScroll);
+            }
+
+            setTimeout(resizeCanvas, 100);
+        }
+
+        // 시뮬레이터 모드 격리를 위한 fixed/absolute 토글 유틸리티
+        function updateFixedElements(mode) {
+            const elements = document.querySelectorAll('.dynamic-fixed');
+            elements.forEach(el => {
+                if (mode === 'mobile') {
+                    el.classList.remove('fixed');
+                    el.classList.add('absolute');
+                } else {
+                    el.classList.remove('absolute');
+                    el.classList.add('fixed');
+                }
+            });
+        }
+
+        // 실제 모바일 기기로 볼 때는 내부 시뮬레이터 프레임을 우회하여 네이티브 반응형으로 전개
+        function autoDetectDeviceScale() {
+            const bar = document.getElementById('simulator-control-bar');
+            if (window.innerWidth < 768) {
+                bar.classList.add('hidden');
+                switchViewMode('desktop'); // 표준 완전 반응형 브라우저 뷰
+            } else {
+                bar.classList.remove('hidden');
+            }
+        }
+        window.addEventListener('load', autoDetectDeviceScale);
+        window.addEventListener('resize', autoDetectDeviceScale);
+
+        // 스크롤 동적 게이지 핸들러 (데스크톱)
+        function handleDesktopScroll() {
+            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            updateScrollGauge(winScroll, height);
+        }
+
+        // 스크롤 동적 게이지 핸들러 (모바일 시뮬레이터 내부 스크롤)
+        function handleMobileScroll() {
+            const app = document.getElementById('app-container');
+            const winScroll = app.scrollTop;
+            const height = app.scrollHeight - app.clientHeight;
+            updateScrollGauge(winScroll, height);
+        }
+
+        function updateScrollGauge(winScroll, height) {
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            
+            // 상단 진행바 및 우측 원형 위젯 가동
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+            
+            const circleGauge = document.getElementById('scroll-circle');
+            const percentText = document.getElementById('scroll-percent');
+            if (circleGauge && percentText) {
+                circleGauge.setAttribute('stroke-dasharray', `${scrolled.toFixed(0)}, 100`);
+                percentText.textContent = `${scrolled.toFixed(0)}%`;
+            }
+        }
+
+        // 기본 데스크톱 스크롤 모니터링 시작
+        window.addEventListener('scroll', handleDesktopScroll);
+
+        // Canvas 백그라운드 파티클 및 스파크 시뮬레이터
+        function resizeCanvas() {
+            const app = document.getElementById('app-container');
+            canvas.width = app.clientWidth;
+            canvas.height = app.clientHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        setTimeout(resizeCanvas, 200);
+
+        (function() {
+            const particleCount = 45;
+
+            // 일반 상승 잔불(Ember) 클래스
+            class EmberParticle {
+                constructor() {
+                    this.reset();
+                    this.y = Math.random() * canvas.height;
+                }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + Math.random() * 20;
+                    this.radius = Math.random() * 1.5 + 0.5;
+                    this.speedY = -(Math.random() * 0.4 + 0.2);
+                    this.speedX = Math.random() * 0.3 - 0.15;
+                    this.alpha = Math.random() * 0.5 + 0.1;
+                    this.fadeSpeed = Math.random() * 0.002 + 0.001;
+                    this.isSpark = false;
+                }
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+                    if (this.y < 100) this.alpha -= this.fadeSpeed * 2;
+                    return (this.y < 0 || this.alpha <= 0);
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(229, 62, 62, ${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            // 타격 시 뿜어 나오는 스파크(Spark) 파티클 클래스
+            class SparkParticle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.radius = Math.random() * 2.5 + 1;
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 6 + 2;
+                    this.speedX = Math.cos(angle) * speed;
+                    this.speedY = Math.sin(angle) * speed;
+                    this.alpha = 1.0;
+                    this.decay = Math.random() * 0.03 + 0.015;
+                    this.isSpark = true;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.speedY += 0.08; 
+                    this.alpha -= this.decay;
+                    return (this.alpha <= 0);
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, ${Math.floor(Math.random() * 100 + 100)}, 0, ${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            // 최초 잔불 생성
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new EmberParticle());
+            }
+
+            // 전역 스파크 트리거 훅
+            window.emitSparks = function(x, y) {
+                const count = 30; 
+                for (let i = 0; i < count; i++) {
+                    particles.push(new SparkParticle(x, y));
+                }
+            };
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    const isDead = p.update();
+                    if (isDead) {
+                        if (p.isSpark) {
+                            particles.splice(i, 1);
+                        } else {
+                            p.reset();
+                        }
+                    } else {
+                        p.draw();
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+
+        // 모바일 드롭다운 메뉴 토글
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                setTimeout(() => { menu.classList.remove('opacity-0'); }, 10);
+                icon.className = "fa-solid fa-xmark text-xl transition-transform duration-300 rotate-90";
+                document.body.style.overflow = "hidden";
+            } else {
+                menu.classList.add('opacity-0');
+                icon.className = "fa-solid fa-bars text-xl transition-transform duration-300";
+                document.body.style.overflow = "";
+                setTimeout(() => { menu.classList.add('hidden'); }, 300);
+            }
+        }
+
+        // 캐치프레이즈 순환 기능
+        const catchphrases = [
+            "불합리한 왼손, 옥타곤을 지배하다.",
+            "조상의 숨결을 짊어지고 맞서는 원주민 전사.",
+            "UFC 세 체급 도전을 목표로 하는 챔피언."
+        ];
+        let phraseIndex = 0;
+        const phraseEl = document.getElementById('catchphrase');
+
+        setInterval(() => {
+            if(!phraseEl) return;
+            phraseEl.style.opacity = 0;
+            setTimeout(() => {
+                phraseIndex = (phraseIndex + 1) % catchphrases.length;
+                phraseEl.textContent = `"${catchphrases[phraseIndex]}"`;
+                phraseEl.style.opacity = 1;
+            }, 500);
+        }, 4000);
+
+        // 타격 포인트 인터랙티브 그래프
+        function highlightTarget(zone) {
+            const head = document.getElementById('dummy-head');
+            const body = document.getElementById('dummy-body');
+            const legs = document.getElementById('dummy-legs');
+            const label = document.getElementById('target-label');
+
+            head.setAttribute('class', 'fill-current text-stone-700 transition-all duration-500');
+            body.setAttribute('class', 'fill-current text-stone-700 transition-all duration-500');
+            legs.setAttribute('class', 'fill-current text-stone-700 transition-all duration-500');
+
+            label.style.opacity = 1;
+            label.style.transform = 'translate(-50%, -50%) scale(1)';
+
+            if (zone === 'head') {
+                head.setAttribute('class', 'fill-current text-chamaRed transition-all duration-500');
+                label.textContent = "머리 적중 : 레프트 훅 KO 65.3%";
+                label.style.borderColor = '#e53e3e';
+            } else if (zone === 'body') {
+                body.setAttribute('class', 'fill-current text-emerald-400 transition-all duration-500');
+                label.textContent = "몸통 적중 : 바디 피로 유발 12.4%";
+                label.style.borderColor = '#34d399';
+            } else if (zone === 'legs') {
+                legs.setAttribute('class', 'fill-current text-goldAccent transition-all duration-500');
+                label.textContent = "다리 적중 : 카프킥 파괴 22.3%";
+                label.style.borderColor = '#ecc94b';
+            }
+        }
+
+        // 스피드 퀴즈 데이터 및 연산 로직
+        const quizData = [
+            {
+                q: "알렉스 페레이라가 SNS 피드와 일상에서 매번 외치는 고유의 시그니처 긍정 구호는 무엇입니까?",
+                options: ["OSS!", "CHAMA!! 🔥", "LET'S GO", "BOMBAYE"],
+                correct: 1
+            },
+            {
+                q: "페레이라의 경기 타겟 데이터 분석 중, 무려 65.3%라는 압도적인 KO율을 보장하는 시그니처 무기는?",
+                options: ["레프트 훅", "플라잉 니킥", "리어 네이키드 초크", "카프 킥"],
+                correct: 0
+            },
+            {
+                q: "경기 전 페이스 페인팅 및 링 위에서 활을 쏘는 퍼포먼스는 브라질의 어느 부족 후예임을 뜻합니까?",
+                options: ["아마존 부족", "투피 부족", "파타쇼(Pataxó) 부족", "잉카 부족"],
+                correct: 2
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let userPoints = 0;
+
+        function initQuiz() {
+            if(currentQuizIndex >= quizData.length) {
+                showQuizResult();
+                return;
+            }
+            
+            document.getElementById('quiz-card-content').classList.remove('hidden');
+            document.getElementById('quiz-result-box').classList.add('hidden');
+            
+            document.getElementById('quiz-progress-text').textContent = `QUESTION ${currentQuizIndex + 1} / ${quizData.length}`;
+            document.getElementById('quiz-score-live').textContent = `SCORE: ${userPoints} PT`;
+            document.getElementById('quiz-question').textContent = quizData[currentQuizIndex].q;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            quizData[currentQuizIndex].options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3.5 bg-jungleDark hover:bg-jungleDeep/70 border border-jungleDeep text-xs sm:text-sm text-gray-300 font-medium transition-colors duration-200 flex justify-between items-center group rounded-none";
+                btn.innerHTML = `
+                    <span>${idx + 1}. &nbsp; ${opt}</span>
+                    <i class="fa-solid fa-chevron-right text-gray-600 group-hover:text-chamaRed text-xs transition-colors"></i>
+                `;
+                btn.onclick = () => selectAnswer(idx);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIdx) {
+            if(selectedIdx === quizData[currentQuizIndex].correct) {
+                userPoints += 10;
+            }
+            currentQuizIndex++;
+            initQuiz();
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-card-content').classList.add('hidden');
+            const resultBox = document.getElementById('quiz-result-box');
+            resultBox.classList.remove('hidden');
+            
+            document.getElementById('quiz-progress-text').textContent = "COMPLETED";
+            document.getElementById('quiz-score-live').textContent = `FINAL: ${userPoints} PT`;
+            
+            const badgeIcon = document.getElementById('badge-icon');
+            const tierEl = document.getElementById('final-tier');
+            const titleEl = document.getElementById('final-title');
+            const summaryEl = document.getElementById('quiz-summary');
+            
+            if(userPoints === 30) {
+                badgeIcon.className = "text-5xl sm:text-6xl text-goldAccent mb-4 pulse-chama";
+                badgeIcon.innerHTML = `<i class="fa-solid fa-crown"></i>`;
+                tierEl.textContent = "🥇 GOLD TIER";
+                tierEl.className = "font-impact text-2xl sm:text-3xl text-goldAccent tracking-wide mb-2";
+                titleEl.textContent = "불합리한 왼손의 후계자 ⚡";
+                summaryEl.textContent = "완벽합니다! 당신은 페레이라의 전술 배합과 야생의 정체성을 완벽하게 파악하고 있는 최고의 정예 추종자(POATAN MASTER)입니다.";
+            } else if(userPoints === 20) {
+                badgeIcon.className = "text-5xl sm:text-6xl text-gray-300 mb-4";
+                badgeIcon.innerHTML = `<i class="fa-solid fa-award"></i>`;
+                tierEl.textContent = "🥈 SILVER TIER";
+                tierEl.className = "font-impact text-2xl sm:text-3xl text-gray-300 tracking-wide mb-2";
+                titleEl.textContent = "정밀 카프킥 전사 🦵";
+                summaryEl.textContent = "상당한 지식입니다! 옥타곤의 영리한 연산 체계를 이해하고 계시네요. 레프트 훅 한 방만 보충하면 고지가 눈앞입니다.";
+            } else {
+                badgeIcon.className = "text-5xl sm:text-6xl text-amber-700 mb-4";
+                badgeIcon.innerHTML = `<i class="fa-solid fa-shield-halved"></i>`;
+                tierEl.textContent = "🥉 BRONZE TIER";
+                tierEl.className = "font-impact text-2xl sm:text-3xl text-amber-600 tracking-wide mb-2";
+                titleEl.textContent = "방구석 UFC 유술가 🥋";
+                summaryEl.textContent = "돌하르방급 무표정으로 퀴즈를 지나치셨군요! 사이트 내부의 분석 데이터를 조금 더 정독하시면 대지의 전사로 거듭날 수 있습니다.";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuizIndex = 0;
+            userPoints = 0;
+            initQuiz();
+        }
+
+        document.addEventListener('DOMContentLoaded', initQuiz);
+
+        // 💥 스크린 셰이크 및 스파크 동시 구동 마스터 트리거
+        let clickCount = 0;
+        function triggerChamaEvent(e, clickTargetType) {
+            // 1. 마우스 및 타겟 좌표 연산 (스파크 유출 위치 제어)
+            const app = document.getElementById('app-container');
+            const rect = app.getBoundingClientRect();
+            let emitX = rect.width / 2;
+            let emitY = rect.height / 2;
+            
+            if (e && e.clientX && e.clientY) {
+                // 시뮬레이터 내부 뷰포트 및 절대 좌표 상대 변환 계산 적용
+                emitX = e.clientX - rect.left;
+                emitY = e.clientY - rect.top;
+            }
+            
+            // 스파크 파티클 뿜어내기
+            if (window.emitSparks) {
+                window.emitSparks(emitX, emitY);
+            }
+
+            // 2. 물리 쉐이크 클래스 바인딩 (UFC급 충격 연출)
+            const targetEl = document.getElementById('device-shell');
+            targetEl.classList.remove('physical-shake');
+            void targetEl.offsetWidth; // 리플로우 강제 유도
+            targetEl.classList.add('physical-shake');
+            setTimeout(() => {
+                targetEl.classList.remove('physical-shake');
+            }, 250);
+
+            // 3. 이스터에그 표정 카드 연동 로직
+            const svg = document.getElementById('stoneface-svg');
+            const soundboard = document.getElementById('meme-soundboard');
+            
+            if (clickTargetType === 'stoneface') {
+                clickCount++;
+                svg.style.transform = 'translateX(10px) rotate(5deg)';
+                setTimeout(() => {
+                    svg.style.transform = 'translateX(-10px) rotate(-5deg)';
+                    setTimeout(() => { svg.style.transform = 'none'; }, 80);
+                }, 80);
+
+                soundboard.style.opacity = 1;
+                
+                if (clickCount % 10 === 0) {
+                    soundboard.textContent = `[레프트 훅 카운터!] CHAMA!!!! 🔥 (콤보: ${clickCount})`;
+                    soundboard.style.color = '#ecc94b';
+                } else if (clickCount % 3 === 0) {
+                    soundboard.textContent = "CHAMA!! 🔥";
+                    soundboard.style.color = '#e53e3e';
+                } else {
+                    soundboard.textContent = "... (묵직한 침묵)";
+                    soundboard.style.color = '#a0aec0';
+                }
+            }
+        }
+
+        // 실시간 댓글 작성 및 렌더링 로직 (XSS 방어 처리 포함)
+        function submitComment(e) {
+            e.preventDefault();
+            const authorInput = document.getElementById('comment-author');
+            const textInput = document.getElementById('comment-text');
+            const commentList = document.getElementById('comment-list');
+
+            if (!authorInput.value.trim() || !textInput.value.trim()) return;
+
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const date = String(now.getDate()).padStart(2, '0');
+            const formattedDate = `${year}.${month}.${date}`;
+
+            const commentCard = document.createElement('div');
+            commentCard.className = 'bg-jungleDeep/30 border border-chamaRed/40 p-4 transition-all duration-500 opacity-0 transform translate-y-2';
+            commentCard.innerHTML = `
+                <div class="flex justify-between items-center mb-1">
+                    <span class="font-bold text-white text-xs">${escapeHtml(authorInput.value)}</span>
+                    <span class="text-[10px] text-gray-500 font-semibold">${formattedDate}</span>
+                </div>
+                <p class="text-gray-200 text-xs sm:text-sm leading-relaxed">${escapeHtml(textInput.value)}</p>
+            `;
+
+            commentList.insertBefore(commentCard, commentList.firstChild);
+            setTimeout(() => {
+                commentCard.classList.remove('opacity-0', 'translate-y-2');
+            }, 50);
+
+            authorInput.value = '';
+            textInput.value = '';
+            
+            // 댓글 달 때도 전체 화면 타격 플래시 충격 부여
+            triggerChamaEvent(null);
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+
+        // 모달 및 비즈니스 제안서 처리
+        function openPurchaseModal(productName, price) {
+            document.getElementById('modal-product-name').textContent = `${productName} ($${price.toFixed(2)})`;
+            document.getElementById('purchase-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('purchase-modal').classList.add('hidden');
+        }
+
+        function handleInquiry(e) {
+            e.preventDefault();
+            const successOverlay = document.createElement('div');
+            successOverlay.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95';
+            successOverlay.innerHTML = `
+                <div class="bg-jungleDark border border-emerald-500 p-6 max-w-sm text-center text-xs">
+                    <i class="fa-solid fa-feather-pointed text-3xl text-emerald-400 mb-3 pulse-chama"></i>
+                    <h4 class="font-impact text-lg text-white mb-1.5">스폰서십 제안 성공 접수</h4>
+                    <p class="text-gray-400 mb-5 leading-relaxed font-sans">작성하신 스폰서십 제안 사항 서류가 전사의 관리망에 임시 등록되었습니다.</p>
+                    <button id="close-inquiry-btn" class="bg-emerald-500 text-jungleDark font-impact px-5 py-2 uppercase text-sm hover:bg-white rounded-none">확인</button>
+                </div>
+            `;
+            document.body.appendChild(successOverlay);
+            document.getElementById('close-inquiry-btn').onclick = function() {
+                successOverlay.remove();
+                e.target.reset();
+            };
+        }
+    </script>
+</body>
+</html>
