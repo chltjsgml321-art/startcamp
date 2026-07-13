@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALEX "POATAN" PEREIRA - Official Site</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+KR:wght@300;400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        jungleDark: '#070f0b', // 아주 어두운 밤의 정글 차콜
+                        jungleDeep: '#0d1f15', // 깊은 정글 그린
+                        chamaRed: '#e53e3e',   // 타오르는 Chama 레드
+                        stoneGray: '#2d3748',  // 단단한 돌빛 그레이
+                        goldAccent: '#ecc94b'  // 전사의 전유물 골드
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                        impact: ['Oswald', 'sans-serif'],
+                        epic: ['Cinzel', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 거칠고 야생적인 느낌의 스크롤바 커스텀 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070f0b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1c3d2a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e53e3e;
+        }
+        
+        /* 거친 붓터치 텍스처 백그라운드 느낌의 그라데이션 */
+        .grunge-bg {
+            background-image: radial-gradient(circle at 50% 50%, rgba(13, 31, 21, 0.4) 0%, rgba(7, 15, 11, 1) 90%);
+        }
+
+        /* 옥타곤 철창 느낌 패턴 */
+        .octagon-grid {
+            background-color: #070f0b;
+            background-image: 
+                linear-gradient(30deg, #0d1f15 12%, transparent 12.5%, transparent 87%, #0d1f15 87.5%, #0d1f15),
+                linear-gradient(150deg, #0d1f15 12%, transparent 12.5%, transparent 87%, #0d1f15 87.5%, #0d1f15),
+                linear-gradient(30deg, #0d1f15 12%, transparent 12.5%, transparent 87%, #0d1f15 87.5%, #0d1f15),
+                linear-gradient(150deg, #0d1f15 12%, transparent 12.5%, transparent 87%, #0d1f15 87.5%, #0d1f15),
+                linear-gradient(60deg, #0d1f15 25%, transparent 25.5%, transparent 75%, #0d1f15 75.5%, #0d1f15),
+                linear-gradient(60deg, #0d1f15 25%, transparent 25.5%, transparent 75%, #0d1f15 75.5%, #0d1f15);
+            background-size: 40px 70px;
+            background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
+            opacity: 0.15;
+        }
+
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+            color: transparent;
+        }
+        
+        @keyframes pulse-fast {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        .pulse-chama {
+            animation: pulse-fast 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-jungleDark text-gray-100 font-sans selection:bg-chamaRed selection:text-white overflow-x-hidden">
+
+    <!-- 글로벌 네비게이션 바 -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-jungleDark/90 backdrop-blur-md border-b border-jungleDeep/50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- 로고 (전사 실루엣 느낌 및 텍스트) -->
+            <a href="#" class="flex items-center gap-3">
+                <svg class="w-8 h-8 text-chamaRed fill-current" viewBox="0 0 24 24">
+                    <!-- 활을 당기는 전사 형상화 SVG -->
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-2h2v2zm0-4.5h-2V7h2v5z"/>
+                </svg>
+                <span class="font-impact text-2xl tracking-wider text-white">ALEX <span class="text-chamaRed">"POATAN"</span></span>
+            </a>
+            
+            <!-- 메뉴 (데스크탑) -->
+            <nav class="hidden md:flex gap-8 font-impact text-lg tracking-widest text-gray-400">
+                <a href="#fighter" class="hover:text-chamaRed transition-colors">THE FIGHTER</a>
+                <a href="#stats" class="hover:text-chamaRed transition-colors">ANALYSIS</a>
+                <a href="#origin" class="hover:text-chamaRed transition-colors">ORIGIN</a>
+                <a href="#media" class="hover:text-chamaRed transition-colors">CHAMA MEME</a>
+                <a href="#shop" class="hover:text-chamaRed transition-colors">OFFICIAL SHOP</a>
+            </nav>
+
+            <!-- CHAMA 버튼 -->
+            <div class="flex items-center gap-4">
+                <button onclick="triggerChama()" class="bg-chamaRed text-white font-impact tracking-widest px-6 py-2 rounded-none border border-transparent hover:bg-transparent hover:border-chamaRed hover:text-chamaRed transition-all duration-300 pulse-chama">
+                    CHAMA! 🔥
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 배경 소음용 데코레이션 레이어 -->
+    <div class="fixed inset-0 octagon-grid pointer-events-none z-0"></div>
+
+    <!-- 1단계: 히어로 오프닝 섹션 (Intro) -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden grunge-bg z-10">
+        <!-- 배경 연기 이펙트용 오버레이 -->
+        <div class="absolute inset-0 bg-gradient-to-t from-jungleDark via-transparent to-transparent z-10"></div>
+        
+        <!-- 전사 이미지 플레이스홀더 (어둡고 무거운 백그라운드) -->
+        <div class="absolute right-0 bottom-0 w-full lg:w-1/2 h-[80vh] opacity-30 lg:opacity-60 flex items-end justify-center pointer-events-none select-none z-0">
+            <!-- 거친 전사 일러스트 느낌의 수작업 SVG -->
+            <svg class="w-full h-full max-h-[700px] text-jungleDeep" viewBox="0 0 500 500" fill="currentColor">
+                <path d="M150,500 L200,300 L250,250 L230,180 L250,120 L240,70 L260,50 L290,70 L280,120 L300,180 L280,250 L330,300 L380,500 Z" />
+                <path d="M230,180 L180,160 L120,190 L90,250" stroke="currentColor" stroke-width="8" fill="none" />
+                <path d="M300,180 L350,190 L410,230 L450,300" stroke="currentColor" stroke-width="8" fill="none" />
+                <circle cx="270" cy="85" r="5" fill="#e53e3e" />
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 w-full relative z-20 grid lg:grid-cols-2 items-center gap-12 py-12">
+            <div>
+                <!-- 원주민 표식 장식 -->
+                <div class="flex items-center gap-3 text-chamaRed mb-4">
+                    <span class="h-[2px] w-12 bg-chamaRed"></span>
+                    <span class="font-impact uppercase tracking-widest text-sm">PATAXÓ WARRIOR</span>
+                </div>
+                
+                <h1 class="font-epic text-5xl md:text-7xl lg:text-8xl font-black leading-none text-white mb-6">
+                    ALEX <br>
+                    <span class="text-transparent text-stroke">PEREIRA</span>
+                </h1>
+
+                <!-- 캐치프레이즈 순환 표시 영역 -->
+                <div class="h-20 mb-8">
+                    <p id="catchphrase" class="font-sans text-xl md:text-2xl text-gray-300 font-light border-l-4 border-chamaRed pl-4 italic transition-all duration-500">
+                        "불합리한 왼손, 옥타곤을 지배하다."
+                    </p>
+                </div>
+
+                <!-- 핵심 매력 태그 -->
+                <div class="flex flex-wrap gap-2 mb-10">
+                    <span class="bg-jungleDeep border border-emerald-900/40 text-emerald-400 font-impact text-xs uppercase tracking-widest px-3 py-1">#불합리한_왼손</span>
+                    <span class="bg-jungleDeep border border-emerald-900/40 text-emerald-400 font-impact text-xs uppercase tracking-widest px-3 py-1">#포커페이스_머신</span>
+                    <span class="bg-jungleDeep border border-emerald-900/40 text-emerald-400 font-impact text-xs uppercase tracking-widest px-3 py-1">#브라질_야생_전사</span>
+                    <span class="bg-jungleDeep border border-emerald-900/40 text-emerald-400 font-impact text-xs uppercase tracking-widest px-3 py-1">#CHAMA_메이커</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#stats" class="bg-chamaRed hover:bg-red-700 text-center text-white font-impact tracking-widest uppercase px-8 py-4 transition-all duration-300">
+                        기술 분석 데이터 보기 <i class="fa-solid fa-arrow-trend-up ml-2"></i>
+                    </a>
+                    <a href="#origin" class="border border-gray-600 hover:border-white text-center text-white font-impact tracking-widest uppercase px-8 py-4 transition-all duration-300">
+                        전사의 기원 <i class="fa-solid fa-person-rifle ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 미니 통계 대시보드 (오프닝 인터랙티브 전적) -->
+            <div class="bg-jungleDeep/40 border border-jungleDeep p-8 backdrop-blur-sm relative">
+                <div class="absolute top-0 right-0 bg-chamaRed text-white font-impact text-xs px-3 py-1 tracking-widest uppercase">
+                    LIVE RECORD
+                </div>
+                <h3 class="font-impact text-2xl text-gray-300 tracking-wider mb-6">UFC 전적 대시보드</h3>
+                <div class="grid grid-cols-3 gap-4 text-center mb-6">
+                    <div class="p-4 bg-jungleDark/60 border border-jungleDeep">
+                        <div class="font-impact text-4xl text-white">10</div>
+                        <div class="text-xs text-gray-500 font-semibold tracking-wider">승 (WINS)</div>
+                    </div>
+                    <div class="p-4 bg-jungleDark/60 border border-jungleDeep">
+                        <div class="font-impact text-4xl text-chamaRed">8</div>
+                        <div class="text-xs text-gray-500 font-semibold tracking-wider">KO/TKO</div>
+                    </div>
+                    <div class="p-4 bg-jungleDark/60 border border-jungleDeep">
+                        <div class="font-impact text-4xl text-white">2</div>
+                        <div class="text-xs text-gray-500 font-semibold tracking-wider">패 (LOSS)</div>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">UFC 미들급 챔피언</span>
+                        <span class="text-goldAccent font-bold">전(前) 보유</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">UFC 라이트헤비급 챔피언</span>
+                        <span class="text-goldAccent font-bold">현(現) 보유</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">체급 석권 도전력</span>
+                        <span class="text-red-400 font-bold">헤비급(세 체급) 목표 진행 중</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2단계: 경기 기술 및 하드코어 데이터 분석 (Fighter Profile & Stats) -->
+    <section id="stats" class="py-24 bg-jungleDark relative z-20 border-t border-jungleDeep/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-chamaRed font-impact tracking-widest uppercase text-sm">TECHNICAL ANALYSIS</span>
+                <h2 class="font-epic text-4xl md:text-5xl font-black text-white mt-2 mb-4">불합리함을 분석하다</h2>
+                <p class="text-gray-400">글로벌 하드코어 격투기 분석팀이 전하는 알렉스 페레이라의 치명적인 전술적 무기 분석표.</p>
+            </div>
+
+            <!-- 타격 기술 인터랙티브 카드 그리드 -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- 무기 1: 레프트 훅 -->
+                <div class="bg-jungleDeep/20 border border-jungleDeep p-8 hover:border-chamaRed transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-chamaRed/10 text-chamaRed rounded-full flex items-center justify-center mb-6 group-hover:bg-chamaRed group-hover:text-white transition-all duration-300">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    </div>
+                    <h3 class="font-impact text-2xl text-white tracking-wide mb-3">불합리한 레프트 훅 (The Left Hook)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        상대의 펀치 궤적 안쪽을 순식간에 뚫고 들어오는 치명적인 타격입니다. 사전 예비 동작이 전혀 없으며, 맞닿는 순간 뇌를 흔드는 압도적인 펀치력은 과학적으로 규명하기 힘든 고유 무기입니다.
+                    </p>
+                    <div class="border-t border-jungleDeep/50 pt-4">
+                        <span class="text-xs text-gray-500 font-semibold block uppercase">KO 확률</span>
+                        <div class="w-full bg-jungleDark h-2 mt-1 relative">
+                            <div class="absolute bg-chamaRed h-full" style="width: 95%;"></div>
+                        </div>
+                        <span class="text-right block text-xs text-chamaRed font-bold mt-1">95% (최상급)</span>
+                    </div>
+                </div>
+
+                <!-- 무기 2: 카프 킥 -->
+                <div class="bg-jungleDeep/20 border border-jungleDeep p-8 hover:border-chamaRed transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-chamaRed/10 text-chamaRed rounded-full flex items-center justify-center mb-6 group-hover:bg-chamaRed group-hover:text-white transition-all duration-300">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    </div>
+                    <h3 class="font-impact text-2xl text-white tracking-wide mb-3">저격형 로우/카프 킥 (Calf Kick)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        거리 싸움의 정점. 상대방이 전진 스텝을 밟으려 하는 찰나의 엇박자로 디딤발의 정강이 바깥쪽 인대를 타격합니다. 2-3회 누적만으로 적의 기동성을 완전히 마비시키는 전략적 카드입니다.
+                    </p>
+                    <div class="border-t border-jungleDeep/50 pt-4">
+                        <span class="text-xs text-gray-500 font-semibold block uppercase">거리 조절 유효성</span>
+                        <div class="w-full bg-jungleDark h-2 mt-1 relative">
+                            <div class="absolute bg-chamaRed h-full" style="width: 88%;"></div>
+                        </div>
+                        <span class="text-right block text-xs text-chamaRed font-bold mt-1">88% (정밀 저격)</span>
+                    </div>
+                </div>
+
+                <!-- 무기 3: 포커페이스 연산 -->
+                <div class="bg-jungleDeep/20 border border-jungleDeep p-8 hover:border-chamaRed transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-chamaRed/10 text-chamaRed rounded-full flex items-center justify-center mb-6 group-hover:bg-chamaRed group-hover:text-white transition-all duration-300">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    </div>
+                    <h3 class="font-impact text-2xl text-white tracking-wide mb-3">감정 제로의 계산 (Pokerface)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        격렬한 난타전 속에서도 호흡과 표정이 전혀 변하지 않는 정교한 연산 기계 같습니다. 상대가 데미지를 입었을 때도 흥분하지 않고 철저히 카운터 타이밍만을 조율하는 극한의 심리적 우위를 제공합니다.
+                    </p>
+                    <div class="border-t border-jungleDeep/50 pt-4">
+                        <span class="text-xs text-gray-500 font-semibold block uppercase">마인드 컨트롤력</span>
+                        <div class="w-full bg-jungleDark h-2 mt-1 relative">
+                            <div class="absolute bg-chamaRed h-full" style="width: 99%;"></div>
+                        </div>
+                        <span class="text-right block text-xs text-chamaRed font-bold mt-1">99% (기계 상태)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 타격 히트 맵 (Interactive Canvas Simulation) -->
+            <div class="mt-16 bg-jungleDeep/10 border border-jungleDeep/50 p-8 grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="bg-chamaRed/10 text-chamaRed font-impact text-xs tracking-widest px-3 py-1 uppercase rounded-sm">INFOGRAPHIC</span>
+                    <h3 class="font-impact text-3xl text-white mt-4 mb-6">타격 타겟 정밀 분포도</h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        아래 대화형 스위치를 통해 알렉스 페레이라가 지난 시합 동안 승리를 가져간 결정적인 타격 포인트를 확인해 보세요. 그의 유효 타격 비율은 얼굴(레프트 훅)과 하체(카프 킥)의 이지선다형 이중 위협구조로 구성되어 있습니다.
+                    </p>
+                    
+                    <!-- 인터랙티브 스위치 -->
+                    <div class="space-y-4">
+                        <button onclick="highlightTarget('head')" class="w-full flex items-center justify-between p-4 bg-jungleDark hover:bg-jungleDeep/50 border border-jungleDeep text-left transition-all duration-300">
+                            <span class="flex items-center gap-3">
+                                <i class="fa-solid fa-skull text-chamaRed"></i>
+                                <span class="font-bold">머리 (레프트 훅 카운터 정밀 타격)</span>
+                            </span>
+                            <span class="font-impact text-chamaRed font-bold text-lg">65.3%</span>
+                        </button>
+                        <button onclick="highlightTarget('body')" class="w-full flex items-center justify-between p-4 bg-jungleDark hover:bg-jungleDeep/50 border border-jungleDeep text-left transition-all duration-300">
+                            <span class="flex items-center gap-3">
+                                <i class="fa-solid fa-shield text-emerald-400"></i>
+                                <span class="font-bold">몸통 (미들킥 및 프론트 킥 바디셋)</span>
+                            </span>
+                            <span class="font-impact text-emerald-400 font-bold text-lg">12.4%</span>
+                        </button>
+                        <button onclick="highlightTarget('legs')" class="w-full flex items-center justify-between p-4 bg-jungleDark hover:bg-jungleDeep/50 border border-jungleDeep text-left transition-all duration-300">
+                            <span class="flex items-center gap-3">
+                                <i class="fa-solid fa-shoe-prints text-goldAccent"></i>
+                                <span class="font-bold">다리 (정밀 로우 카프킥 누적 데미지)</span>
+                            </span>
+                            <span class="font-impact text-goldAccent font-bold text-lg">22.3%</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 그래픽 시각화 (SVG Human Dummy & Heatmap) -->
+                <div class="flex justify-center items-center py-8">
+                    <div class="relative w-72 h-[450px]">
+                        <!-- 더미 SVG -->
+                        <svg class="w-full h-full text-stone-700" viewBox="0 0 100 220">
+                            <!-- 머리 -->
+                            <circle id="dummy-head" cx="50" cy="25" r="12" class="fill-current transition-all duration-500 hover:text-chamaRed cursor-pointer" />
+                            <!-- 몸통 -->
+                            <path id="dummy-body" d="M38 40 L62 40 L66 110 L34 110 Z" class="fill-current transition-all duration-500 hover:text-emerald-400 cursor-pointer" />
+                            <!-- 팔 -->
+                            <path d="M34 40 L22 90 L28 92 L36 45 Z" class="fill-current" />
+                            <path d="M66 40 L78 90 L72 92 L64 45 Z" class="fill-current" />
+                            <!-- 다리 -->
+                            <path id="dummy-legs" d="M35 112 L43 205 L49 205 L48 112 Z M52 112 L51 205 L57 205 L65 112 Z" class="fill-current transition-all duration-500 hover:text-goldAccent cursor-pointer" />
+                        </svg>
+
+                        <!-- 다이내믹 포인터 하이라이트 -->
+                        <div id="target-label" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-jungleDark border-2 border-chamaRed text-white text-xs font-bold px-4 py-2 opacity-0 scale-75 transition-all duration-300 pointer-events-none shadow-2xl">
+                            타겟 분석 로딩 중
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3단계: 전사의 기원 (The Origin Storytelling) -->
+    <section id="origin" class="py-24 bg-jungleDeep/10 relative z-20">
+        <!-- 숲/원주민 상징적 배경 비주얼 처리 -->
+        <div class="absolute inset-0 bg-gradient-to-b from-jungleDark via-transparent to-jungleDark opacity-80"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- 이미지 영역: 브라질 파타쇼 부족의 혼 -->
+                <div class="relative group">
+                    <div class="absolute inset-0 border-2 border-chamaRed translate-x-4 translate-y-4 -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"></div>
+                    <div class="bg-jungleDark p-4 border border-jungleDeep">
+                        <!-- 전사 활 시그니처 랜드마크 플레이스홀더 -->
+                        <div class="w-full h-96 bg-cover bg-center flex items-center justify-center relative overflow-hidden" style="background-image: linear-gradient(135deg, #1c3d2a, #070f0b);">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            
+                            <!-- 활 모양 활쏘기 입장 실루엣 SVG 데코레이션 -->
+                            <svg class="w-64 h-64 text-chamaRed fill-none stroke-current stroke-2 pulse-chama" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" class="opacity-10" />
+                                <!-- 활 몸체 -->
+                                <path d="M50 10 C 25 30, 25 70, 50 90" />
+                                <!-- 활 시위 -->
+                                <line x1="50" y1="10" x2="50" y2="90" stroke-dasharray="2,2" />
+                                <!-- 화살 -->
+                                <line x1="20" y1="50" x2="80" y2="50" stroke="#ecc94b" stroke-width="3" />
+                                <polygon points="80,50 72,45 72,55" fill="#ecc94b" />
+                            </svg>
+                            
+                            <span class="absolute bottom-6 left-6 bg-jungleDark/80 backdrop-blur-md px-4 py-2 border border-jungleDeep text-xs font-bold text-gray-300">
+                                <i class="fa-solid fa-tree mr-2 text-emerald-400"></i> 브라질 파타쇼(Pataxó) 전사의 기운
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 텍스트 영역: 타임라인 스토리텔링 -->
+                <div>
+                    <span class="text-chamaRed font-impact tracking-widest uppercase text-sm">THE ORIGIN & DESTINY</span>
+                    <h2 class="font-epic text-4xl md:text-5xl font-black text-white mt-2 mb-8">대지와 전사의 기원</h2>
+                    
+                    <div class="space-y-8 border-l-2 border-jungleDeep pl-6">
+                        <!-- 타임라인 1 -->
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-chamaRed border-4 border-jungleDark"></span>
+                            <h4 class="font-impact text-xl text-white tracking-wide">야생의 극복: 혹독한 청년기</h4>
+                            <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                브라질 타이어 숍 노동자에서 시작된 그의 강철 같은 육체와 한계 단련. 가난과 악조건 속에서도 고유의 굳건한 정신력을 바탕으로 킥복싱 세계 챔피언에 올랐습니다.
+                            </p>
+                        </div>
+                        
+                        <!-- 타임라인 2 -->
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-emerald-400 border-4 border-jungleDark"></span>
+                            <h4 class="font-impact text-xl text-white tracking-wide">파타쇼 부족의 후예로서 당당히 서다</h4>
+                            <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                단순한 격투 파이터가 아닙니다. 경기장 입장 시 선보이는 파타쇼 부족의 페이스 페인팅과 전설적인 활쏘기 퍼포먼스는, 대지의 힘과 조상의 기를 가슴속에 품고 링에 오른다는 야생 전사의 맹세입니다.
+                            </p>
+                        </div>
+
+                        <!-- 타임라인 3 -->
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-goldAccent border-4 border-jungleDark"></span>
+                            <h4 class="font-impact text-xl text-white tracking-wide">UFC 역사를 바꾸다: 두 체급 석권</h4>
+                            <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                미들급 제패에 이어 라이트헤비급마저 파괴적인 무력으로 평정. 역사상 가장 짧은 UFC 커리어로 두 개의 왕관을 머리에 올리며, 전설의 반열에 등극하였습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4단계: 일상의 반전 매력 (Chama Meme) - 이스터에그 인터랙티브 버튼 포함 -->
+    <section id="media" class="py-24 bg-jungleDark relative z-20 border-t border-jungleDeep/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-chamaRed font-impact tracking-widest uppercase text-sm">THE POKERFACE VS MEME</span>
+                <h2 class="font-epic text-4xl md:text-5xl font-black text-white mt-2 mb-4">냉혈 머신 뒤의 은밀한 반전</h2>
+                <p class="text-gray-400">경기장의 무자비한 사냥꾼은 잊으세요. SNS 공간 속 페레이라 특유의 개그 밈과 유머 감각을 경험하는 인터랙티브 모션 섹션.</p>
+            </div>
+
+            <!-- 미디어 카드 및 인터랙티브 포커페이스 클릭존 -->
+            <div class="grid lg:grid-cols-12 gap-8 items-center">
+                <!-- 왼쪽: 밈 카드 갤러리 -->
+                <div class="lg:col-span-7 grid sm:grid-cols-2 gap-4">
+                    <div class="bg-jungleDeep/20 border border-jungleDeep p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <i class="fa-brands fa-instagram text-pink-500"></i>
+                            <span class="text-xs text-gray-400 font-semibold">@alexpoatanpereira</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">"CHAMA"는 무슨 의미?</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            페레이라의 모든 인스타 캡션의 끝에는 'Chama'가 붙습니다. 불꽃 혹은 포르투갈어의 감탄사 '가자!'라는 긍정의 에너지를 의미하는 최고의 대표 유행어입니다.
+                        </p>
+                    </div>
+
+                    <div class="bg-jungleDeep/20 border border-jungleDeep p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <i class="fa-brands fa-youtube text-red-500"></i>
+                            <span class="text-xs text-gray-400 font-semibold">훈련장 비하인드</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">침묵 속의 예능감</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            아무 대꾸도 하지 않은 채 동료 파이터의 우스꽝스러운 연출을 뒤에서 가만히 무표정으로 쳐다보는 페레이라식 무음 몸개그는 격투기 팬들의 최고 최애 콘텐츠입니다.
+                        </p>
+                    </div>
+
+                    <div class="bg-jungleDeep/20 border border-jungleDeep p-6 sm:col-span-2">
+                        <h4 class="font-bold text-lg mb-2"><i class="fa-solid fa-face-smile-wink mr-2 text-yellow-400"></i> 팬들의 원픽 돌하르방 밈</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            아이와 놀아주거나, 롤러코스터를 타거나, 팬들을 만날 때도 100% 똑같은 돌빛 포커페이스 표정으로 대조를 주어 옥타곤 안팎에서 유일무이한 캐릭터성을 확보해 내고 있습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 오른쪽: 인터랙티브 포커페이스 클릭 이스터에그 -->
+                <div class="lg:col-span-5 bg-jungleDeep/30 border-2 border-dashed border-jungleDeep/60 p-8 text-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-radial-gradient from-transparent to-jungleDark/80"></div>
+                    <div class="relative z-10">
+                        <span class="text-xs text-goldAccent font-impact tracking-widest uppercase block mb-2">INTERACTIVE EASTER EGG</span>
+                        <h3 class="font-impact text-2xl text-white mb-6">그의 포커페이스를 흔들어보세요</h3>
+                        
+                        <!-- 클릭할 조형물 (SVG 포커페이스 마스크) -->
+                        <div onclick="pokeStoneFace()" class="relative w-40 h-40 mx-auto cursor-pointer group mb-6 select-none">
+                            <div class="absolute inset-0 bg-chamaRed/10 rounded-full group-hover:bg-chamaRed/20 transition-all duration-300 blur-xl"></div>
+                            <!-- 포아탄 마스크 형상 SVG -->
+                            <svg id="stoneface-svg" class="w-full h-full text-stoneGray group-hover:text-gray-400 transition-colors duration-200 fill-current" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="4" />
+                                <!-- 이마 라인 -->
+                                <path d="M30 35 L70 35" stroke="currentColor" stroke-width="4" />
+                                <!-- 무표정 눈 -->
+                                <line x1="32" y1="45" x2="44" y2="45" stroke="currentColor" stroke-width="4" />
+                                <line x1="56" y1="45" x2="68" y2="45" stroke="currentColor" stroke-width="4" />
+                                <!-- 기계적인 코 -->
+                                <path d="M50 40 L50 65 L44 65" fill="none" stroke="currentColor" stroke-width="4" />
+                                <!-- 칼 같은 일자 입 -->
+                                <line x1="35" y1="75" x2="65" y2="75" stroke="currentColor" stroke-width="5" />
+                            </svg>
+                        </div>
+                        
+                        <p class="text-xs text-gray-400 leading-relaxed mb-4">
+                            위의 단단한 무표정 아이콘을 마우스로 힘껏 격타해보세요! <br>페레이라 전매특허의 시그니처 소리와 엄청난 힘을 체감할 수 있습니다.
+                        </p>
+                        
+                        <div id="meme-soundboard" class="font-impact text-xl text-chamaRed min-h-[30px] opacity-0 transition-opacity duration-300">
+                            "CHAMA!! 🔥"
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5단계: 수익 창출을 위한 공식 프리미엄 굿즈 샵 (Official Shop) -->
+    <section id="shop" class="py-24 bg-jungleDeep/5 relative z-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16">
+                <div>
+                    <span class="text-chamaRed font-impact tracking-widest uppercase text-sm">OFFICIAL APPAREL & GEAR</span>
+                    <h2 class="font-epic text-4xl md:text-5xl font-black text-white mt-2">전사의 갑옷을 입다</h2>
+                </div>
+                <p class="text-gray-400 max-w-md mt-4 md:mt-0">
+                    페레이라 고유의 시그니처 밈 브랜드 'CHAMA' 어패럴 및 전문 훈련 라인업을 오직 이 공식 채널에서만 전 세계 최초 단독 출시합니다.
+                </p>
+            </div>
+
+            <!-- 제품 리스트 그리드 -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- 상품 1 -->
+                <div class="bg-jungleDark border border-jungleDeep/80 hover:border-chamaRed transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-4 bg-jungleDeep/10 flex items-center justify-center relative overflow-hidden h-72">
+                        <!-- Chama 어패럴 상징 SVG 가상 렌더링 -->
+                        <svg class="w-32 h-32 text-gray-800 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24">
+                            <!-- 티셔츠 모양 -->
+                            <path d="M18.06 23h-12c-.55 0-1-.45-1-1v-12.02l-2.06-2.06c-.4-.4-.51-.99-.28-1.5l1.62-3.6c.21-.47.69-.78 1.21-.78h2.02c.28 1.41 1.51 2.48 3 2.48s2.72-1.07 3-2.48h2.02c.52 0 1 .31 1.21.78l1.62 3.6c.23.51.12 1.1-.28 1.5l-2.06 2.06v12.02c0 .55-.45 1-1 1z"/>
+                        </svg>
+                        <span class="absolute top-4 left-4 bg-chamaRed text-white font-impact text-xs uppercase px-2 py-1 tracking-widest">BEST SELLER</span>
+                        <!-- Chama 텍스트 브랜딩 프린트 가상 데코 -->
+                        <div class="absolute text-center">
+                            <span class="font-impact text-3xl text-chamaRed/70 uppercase">CHAMA</span>
+                        </div>
+                    </div>
+                    <div class="p-6 border-t border-jungleDeep/50">
+                        <span class="text-xs text-emerald-400 font-semibold tracking-wider block uppercase mb-1">Chama 오리지널스</span>
+                        <h3 class="font-impact text-xl text-white tracking-wide mb-2">"CHAMA!" 프리미엄 오버핏 후드</h3>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="font-impact text-2xl text-white">$79.00</span>
+                            <button onclick="openPurchaseModal('CHAMA! 프리미엄 오버핏 후드', 79.00)" class="bg-chamaRed text-white font-impact text-sm tracking-widest uppercase px-4 py-2 hover:bg-white hover:text-jungleDark transition-colors duration-300">
+                                즉시 소장 <i class="fa-solid fa-cart-shopping ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 상품 2 -->
+                <div class="bg-jungleDark border border-jungleDeep/80 hover:border-chamaRed transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-4 bg-jungleDeep/10 flex items-center justify-center relative overflow-hidden h-72">
+                        <!-- 돌주먹 각인 프로 글러브 가상 SVG -->
+                        <svg class="w-32 h-32 text-gray-800 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24">
+                            <!-- 글러브 실루엣 모양 -->
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        </svg>
+                        <span class="absolute top-4 left-4 bg-goldAccent text-jungleDark font-impact text-xs uppercase px-2 py-1 tracking-widest">LIMITED EDITION</span>
+                        <div class="absolute text-center">
+                            <span class="font-impact text-xl text-yellow-500/80 uppercase">POATAN 12OZ</span>
+                        </div>
+                    </div>
+                    <div class="p-6 border-t border-jungleDeep/50">
+                        <span class="text-xs text-emerald-400 font-semibold tracking-wider block uppercase mb-1">한정판 프로 기어</span>
+                        <h3 class="font-impact text-xl text-white tracking-wide mb-2">"포아탄" 레더 시그니처 글러브</h3>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="font-impact text-2xl text-white">$149.00</span>
+                            <button onclick="openPurchaseModal('포아탄 레더 시그니처 글러브', 149.00)" class="bg-chamaRed text-white font-impact text-sm tracking-widest uppercase px-4 py-2 hover:bg-white hover:text-jungleDark transition-colors duration-300">
+                                즉시 소장 <i class="fa-solid fa-cart-shopping ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 상품 3 -->
+                <div class="bg-jungleDark border border-jungleDeep/80 hover:border-chamaRed transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-4 bg-jungleDeep/10 flex items-center justify-center relative overflow-hidden h-72">
+                        <!-- 전사 볼캡 모자 가상 SVG -->
+                        <svg class="w-32 h-32 text-gray-800 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24">
+                            <!-- 모자 형상 -->
+                            <path d="M12 3c-4.97 0-9 4.03-9 9 0 .58.07 1.15.18 1.7L1 16l14-2.5V3H12zm1 14.5h-2v-2h2v2zm0-4.5h-2V7h2v5z"/>
+                        </svg>
+                        <div class="absolute text-center">
+                            <span class="font-impact text-3xl text-emerald-600/40 uppercase">WARRIOR</span>
+                        </div>
+                    </div>
+                    <div class="p-6 border-t border-jungleDeep/50">
+                        <span class="text-xs text-emerald-400 font-semibold tracking-wider block uppercase mb-1">데일리 악세서리</span>
+                        <h3 class="font-impact text-xl text-white tracking-wide mb-2">PATAXÓ 전사의 궁수 자수 볼캡</h3>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="font-impact text-2xl text-white">$35.00</span>
+                            <button onclick="openPurchaseModal('PATAXÓ 전사의 궁수 자수 볼캡', 35.00)" class="bg-chamaRed text-white font-impact text-sm tracking-widest uppercase px-4 py-2 hover:bg-white hover:text-jungleDark transition-colors duration-300">
+                                즉시 소장 <i class="fa-solid fa-cart-shopping ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 비즈니스 / 컨택 섹션 (Business Hub) -->
+    <section class="py-24 bg-jungleDark border-t border-jungleDeep/50 relative z-20">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <span class="text-chamaRed font-impact tracking-widest uppercase text-sm">SPONSORSHIP & PRESS</span>
+            <h2 class="font-epic text-4xl md:text-5xl font-black text-white mt-2 mb-6">전사와 동행하십시오</h2>
+            <p class="text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto">
+                글로벌 챔피언 알렉스 페레이라와 비즈니스 파트너십, 글로벌 미디어 스폰서십, 경기 프로모션 제휴를 제안할 유일한 공식 다이렉트 컨택 포인트입니다.
+            </p>
+            
+            <form onsubmit="handleInquiry(event)" class="space-y-4 max-w-lg mx-auto bg-jungleDeep/20 border border-jungleDeep p-8">
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <input type="text" placeholder="제안 주체 명 (회사/브랜드)" required class="bg-jungleDark border border-jungleDeep p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-chamaRed">
+                    <input type="email" placeholder="회신받을 이메일 주소" required class="bg-jungleDark border border-jungleDeep p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-chamaRed">
+                </div>
+                <textarea placeholder="파트너십 및 스폰서십 제안 사항을 적어주십시오." rows="4" required class="w-full bg-jungleDark border border-jungleDeep p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-chamaRed"></textarea>
+                <button type="submit" class="w-full bg-chamaRed text-white font-impact tracking-widest uppercase py-3 hover:bg-red-700 transition-colors duration-300">
+                    비즈니스 제안 전송 <i class="fa-solid fa-paper-plane ml-2"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 푸터 영역 -->
+    <footer class="bg-jungleDark/90 border-t border-jungleDeep py-12 text-center text-sm text-gray-500 relative z-20">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <span class="font-impact text-xl text-white tracking-widest">POATAN <span class="text-chamaRed">CHAMA</span></span>
+            </div>
+            <p class="text-xs">&copy; 2026 ALEX "POATAN" PEREIRA. All rights reserved. 브랜딩 기획안을 바탕으로 완벽 코딩된 팬 & 비즈니스 허브 웹사이트입니다.</p>
+            <div class="flex gap-4 text-gray-400 text-lg">
+                <a href="#" class="hover:text-chamaRed"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-chamaRed"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="hover:text-chamaRed"><i class="fa-brands fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 가상 굿즈 구매완료 안내 커스텀 모달 (No Browser Alerts Rule) -->
+    <div id="purchase-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+        <div class="bg-jungleDeep border-2 border-chamaRed p-8 max-w-md w-full text-center relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="w-16 h-16 bg-chamaRed/10 text-chamaRed rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fa-solid fa-check text-2xl"></i>
+            </div>
+            <h3 class="font-impact text-2xl text-white mb-2">소장 구매 접수 완료!</h3>
+            <p id="modal-product-name" class="text-goldAccent font-bold text-lg mb-4">상품명</p>
+            <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                알렉스 페레이라 공식 팬 허브를 이용해 주셔서 감사합니다. 가상 테스트 주문이 정상 완료되었습니다. "CHAMA!!" 힘찬 기운과 함께 하루를 보내세요!
+            </p>
+            <button onclick="closeModal()" class="w-full bg-chamaRed text-white font-impact tracking-widest py-3 uppercase hover:bg-red-700 transition-colors">
+                CHAMA!
+            </button>
+        </div>
+    </div>
+
+    <!-- 순수 바닐라 JS 로직 -->
+    <script>
+        // 1. 캐치프레이즈 순환 기능
+        const catchphrases = [
+            "불합리한 왼손, 옥타곤을 지배하다.",
+            "조상의 숨결을 짊어지고 맞서는 원주민 전사.",
+            "UFC 세 체급 도전을 목표로 하는 챔피언."
+        ];
+        let phraseIndex = 0;
+        const phraseEl = document.getElementById('catchphrase');
+
+        setInterval(() => {
+            phraseEl.style.opacity = 0;
+            setTimeout(() => {
+                phraseIndex = (phraseIndex + 1) % catchphrases.length;
+                phraseEl.textContent = `"${catchphrases[phraseIndex]}"`;
+                phraseEl.style.opacity = 1;
+            }, 500);
+        }, 4000);
+
+        // 2. 타격 포인트 인터랙티브 분석 그래프 & 더미 제어
+        function highlightTarget(zone) {
+            const head = document.getElementById('dummy-head');
+            const body = document.getElementById('dummy-body');
+            const legs = document.getElementById('dummy-legs');
+            const label = document.getElementById('target-label');
+
+            // 초기화
+            head.setAttribute('class', 'fill-current text-stone-700 transition-all duration-500');
+            body.setAttribute('class', 'fill-current text-stone-700 transition-all duration-500');
+            legs.setAttribute('class', 'fill-current text-stone-700 transition-all duration-500');
+
+            // 라벨 세팅 및 타겟 컬러 부각
+            label.style.opacity = 1;
+            label.style.transform = 'translate(-50%, -50%) scale(1)';
+
+            if (zone === 'head') {
+                head.setAttribute('class', 'fill-current text-chamaRed transition-all duration-500');
+                label.textContent = "머리 적중 : 레프트 훅 KO 유도 65.3%";
+                label.style.borderColor = '#e53e3e';
+            } else if (zone === 'body') {
+                body.setAttribute('class', 'fill-current text-emerald-400 transition-all duration-500');
+                label.textContent = "몸통 적중 : 바디 피로 유발 12.4%";
+                label.style.borderColor = '#34d399';
+            } else if (zone === 'legs') {
+                legs.setAttribute('class', 'fill-current text-goldAccent transition-all duration-500');
+                label.textContent = "다리 적중 : 하체 카프킥 파괴 22.3%";
+                label.style.borderColor = '#ecc94b';
+            }
+        }
+
+        // 3. 이스터에그: 포커페이스 클릭 시 CHAMA 이펙트 및 모션
+        let clickCount = 0;
+        function pokeStoneFace() {
+            const svg = document.getElementById('stoneface-svg');
+            const soundboard = document.getElementById('meme-soundboard');
+            clickCount++;
+
+            // 좌우 흔들림 타격 애니메이션 효과
+            svg.style.transform = 'translateX(10px) rotate(5deg)';
+            setTimeout(() => {
+                svg.style.transform = 'translateX(-10px) rotate(-5deg)';
+                setTimeout(() => {
+                    svg.style.transform = 'none';
+                }, 80);
+            }, 80);
+
+            soundboard.style.opacity = 1;
+            
+            // 타격 누적 횟수에 따른 텍스트 다변화
+            if (clickCount % 10 === 0) {
+                soundboard.textContent = `[레프트 훅 카운터 작렬!] CHAMA!!!! 🔥🔥🔥 (콤보: ${clickCount})`;
+                soundboard.style.color = '#ecc94b';
+            } else if (clickCount % 3 === 0) {
+                soundboard.textContent = "CHAMA!! 🔥";
+                soundboard.style.color = '#e53e3e';
+            } else {
+                soundboard.textContent = "... (묵직한 침묵)";
+                soundboard.style.color = '#a0aec0';
+            }
+        }
+
+        // CHAMA 트리거 상단 글로벌 버튼 용도
+        function triggerChama() {
+            pokeStoneFace();
+            // 화면 전반에 일시적 적색 불빛 충격파 효과
+            const flash = document.createElement('div');
+            flash.className = 'fixed inset-0 bg-chamaRed/10 pointer-events-none z-50 transition-opacity duration-300';
+            document.body.appendChild(flash);
+            setTimeout(() => {
+                flash.style.opacity = 0;
+                setTimeout(() => flash.remove(), 300);
+            }, 100);
+        }
+
+        // 4. 모달 기반 굿즈 즉시소장 커머스 시뮬레이터 (Browser alert 대체)
+        function openPurchaseModal(productName, price) {
+            document.getElementById('modal-product-name').textContent = `${productName} ($${price.toFixed(2)})`;
+            document.getElementById('purchase-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('purchase-modal').classList.add('hidden');
+        }
+
+        // 5. 비즈니스 폼 가상 핸들링
+        function handleInquiry(e) {
+            e.preventDefault();
+            const successOverlay = document.createElement('div');
+            successOverlay.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90';
+            successOverlay.innerHTML = `
+                <div class="bg-jungleDark border border-emerald-500 p-8 max-w-sm text-center">
+                    <i class="fa-solid fa-feather-pointed text-4xl text-emerald-400 mb-4 pulse-chama"></i>
+                    <h4 class="font-impact text-xl text-white mb-2">스폰서십 제안 성공 접수</h4>
+                    <p class="text-xs text-gray-400 mb-6 leading-relaxed">작성하신 격투 전술 및 스폰서십 문의 서류가 페레이라 글로벌 관리망에 임시 등록되었습니다.</p>
+                    <button id="close-inquiry-btn" class="bg-emerald-500 text-jungleDark font-impact px-6 py-2 uppercase hover:bg-white">확인</button>
+                </div>
+            `;
+            document.body.appendChild(successOverlay);
+            
+            document.getElementById('close-inquiry-btn').onclick = function() {
+                successOverlay.remove();
+                e.target.reset();
+            };
+        }
+    </script>
+</body>
+</html>
